@@ -1,53 +1,37 @@
-# let's clap · 一起拍手吧
+# Let's Clap · 一起拍手吧
 
-严格按根目录 PRD v2.0 的 P0 开发：宠物首页和单关卡风车页；知识库合法两小节；真实拍手采集、保守分析、主动保留与混音试听。
+本地儿童音乐 demo，已整合 Mio PR #1 的前置语音与宠物流程，以及现有 3D 节奏游戏、拍手输入、试听、专辑墙与教学报告。
 
-## 在这台 Mac 上运行
+## 运行
+
+Node 22+，依赖固定为 ws@8.21.0；Three.js / GLTFLoader 已放在本地 vendor。
 
 ```sh
+npm ci
+cp .env.example .env # 已有配置时无需复制
 ./scripts/run.sh
 ```
 
-打开 http://127.0.0.1:5173。Chrome 优先。点击“开始挑战”才申请拍手录音授权；首次点麦克风开启语音互动，之后每步讲解结束自动收听，停顿后提交；可随时暂停。名字确认、开始拍手录音、保留作品需点击。技术信息与开发按钮收在“开发信息”。建议用耳机。
+本机 bundled Node 路径：`/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node`。启动脚本优先使用用户目录中的 bundled Node，也支持 `NODE_BIN`。当前整合体验使用 `PORT=5199 ./scripts/run.sh`，入口 http://127.0.0.1:5199/ 。
 
-其他环境需 Node.js 22+，先 pnpm install --frozen-lockfile，再 pnpm start（也可 npm install / npm start）。
+## 主流程
 
-## 配置
+孵化 → 命名 → 心情 → 编排/示范/调整难度 → 3D 节奏游戏 → 试听 → 收藏与改名。Mio 负责前置语音与知识库编排；编排完成后进入风车，先看同一方案的拍手／停格子与10秒示范，再开始录制。示范不采集麦克风，游戏提示和绳圈使用同一拍点时间轴。性格对应企鹅、鲸鱼、腊肠狗，场景沿用命名后的伙伴。开心、平静可进游戏；兴奋关卡未开放。语音默认引导后收听；浏览器需要手势时，首次点击即可接续。没有连接时可使用屏幕按钮。
 
-.env 已从本地 Animal Band 配置复用 API Key，仅在服务器使用，已 gitignore。
-已配置用户提供的北京地域、Workspace ID 与更新后的 API Key。2026-10-11 新 Key 已通过真实鉴权、探险意图工具调用、合法 8 拍 AI 编排和批准台词的 PCM 语音输出验证。合成测试语音经实际业务代理进入探险、降低难度的完整闭环也已通过。断网或响应失败时仍明确使用规则后备。
+游戏支持点击、空格与本地麦克风拍手检测，并在本机保存真实拍手录音。静态 GLB 整体跳跃，没有骨骼绑定或身体动作识别。冒险固定 96 BPM、4/4 四小节 16 拍、10 秒；展示与专辑将真实拍手录音（去掉准备拍）重复 3 次，叠加用户提供的 30 秒、12 小节《大风车》无鼓伴奏；报告只统计原始 10 秒游戏时间轴，旧收藏按原时长播放，作品改为真实拍手录音叠加伴奏，不再合成鼓声。专辑保存在当前浏览器，报告使用原始游戏时间轴，动态编排不自动冒充均匀跟拍课程达标。
 
-| 环境变量 | 用途 |
-|---|---|
-| DASHSCOPE_API_KEY | 服务端 API Key，不传浏览器 |
-| DASHSCOPE_WORKSPACE_ID | 百炼业务空间 ID；新实时模型必须配置 |
-| DASHSCOPE_REGION | cn-beijing 或 ap-southeast-1，与 Key 和业务空间同地域 |
-| QWEN_REALTIME_MODEL | 已固定默认 qwen3.8-omni-flash-realtime |
-| DEMO_BPM | 默认 72，开发速度，非原唱权威值 |
-| DEMO_BACKING_ASSET | 可选 /assets/audio/文件名.wav，已审核前两小节 |
-| PORT | 默认 5173 |
+`/practice.html?view=album` 查看专辑；`/night-rescue.html` 保留旧关卡；`/clap-test.html` 是本地拍手检测测试页。旧 `lets-clap-v1`、Mio 宠物和旧作品保持原样。
 
-配置后重启服务。密钥不应发到聊天或加入 Git。
-未找到数据库中的大风车已渲染伴奏，当前混音使用实际前两小节曲谱的合成旋律，界面有开发标记。
+## 服务与验证
 
-接口根据阿里云 [实时连接](https://help.aliyun.com/zh/model-studio/realtime)、[客户端事件](https://help.aliyun.com/zh/model-studio/client-events)、[服务端事件](https://help.aliyun.com/zh/model-studio/server-events) 实现并核对。启动时检查真实连接；鉴权失败会明确显示并禁用语音入口。真实鉴权与基础调用已通过；本地模拟不能代替现场真人语音与拍手验收。
-
-## 测试
+统一入口 `server/index.js` 提供 HTTP 与实时语音代理；`server.mjs` 的反馈和节奏报告接口被复用。密钥只在服务端 `.env`，禁止提交。启动时连接验证不代表完整语音验收；无密钥或上游失败明确提供后备，不虚构 AI 结果。
 
 ```sh
-pnpm test
-# 已启动服务后，加入 HTTP 与本地千问协议模拟测试：
-BOBO_INTEGRATION=1 pnpm test
-# 可选：安装 Playwright，并提供 Chrome 路径：
-CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" node tests/hatch-browser.mjs
-# 真实千问语音联调（明确标记的合成输入，仅测试）：
-CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" node --env-file=.env tests/voice-first-browser.mjs
+node --test test/*.test.mjs tests/*.test.js
+# 运行无密钥本地测试服务后，包含 HTTP 与模拟千问协议：
+BASE_URL=http://127.0.0.1:5200 BOBO_INTEGRATION=1 node --test test/*.test.mjs tests/*.test.js
 ```
 
-浏览器集成测试采用清楚标记的 Chromium 假麦克风；模拟数据仅测试使用，应用没有模拟录音入口。现场真人拍手精度、硬件延迟仍需单独验证；真实千问链路已做合成语音联调。
+最新 91 项测试通过。真实语音/真人拍手、孩子现场体验与生产发布尚未作为本轮验收。
 
-详见 [实施与模块分工](docs/IMPLEMENTATION.md)、[验收记录](docs/TEST_REPORT.md)、[素材出处与审核状态](public/assets/README.md)。
-
-## 语音文案统一调整
-
-[每页提示文本](docs/VOICE_COPY.md)，固定口播源文件 src/app/prompts.js。固定音频为真实千问生成并通过原文校验；动态反馈来自实际拍手检测。
+详细交接与证据见 [PR #1 整合记录](docs/integration/pr1-local.md)、[拍手检测](docs/integration/clap-input.md)、[节奏报告](docs/integration/rhythm-feedback.md)。

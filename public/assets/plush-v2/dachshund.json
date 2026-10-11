@@ -1,0 +1,16 @@
+{
+  "provider": "Tripo",
+  "taskId": "028bd41a-20a7-456a-9e84-7633df86ffbe",
+  "name": "咚咚 · 腊肠狗",
+  "prompt": "A recognizable dachshund puppy stuffed toy, long chubby sausage body, four very short rounded paws, floppy oval ears, gently rounded muzzle and short raised tail. Warm cinnamon brown body with oat-cream muzzle, belly and paws, small dark bead eyes and tiny chocolate nose. Cute calm friendly face, natural dog anatomy. Sideways standing pose with head slightly turned, full body and all four legs visible, finished on all sides. Dense soft fine velour short-pile plush cloth, silky uniform 2mm nap brushed smoothly, softly padded continuous contours and subtle seams. Fur is fine texture NOT sculpted curly lumps, scales or spikes. Generic dachshund animal toy with its own color pattern and plump proportions. No clothing, collar, brand logo, text, scene, base or pedestal.",
+  "source": "original text-to-model; reference photos not uploaded",
+  "sha256": "93e920512ef8a106507e145f146e158f1ad912050dbdfb927fcedf5e2988c871",
+  "bytes": 4377832,
+  "creditsConsumed": 20,
+  "meshes": 1,
+  "materials": 1,
+  "images": 3,
+  "providerRawSha256": "1ae83be40979f1d0575b11b619a999927aa30fbeb79f3bbdb68a2f751a91ac75",
+  "postprocess": "Whole-model proportion transform: forward X 1.22, height Y 0.78, width Z 1.0; provider raw preserved locally",
+  "triangles": 29486
+}

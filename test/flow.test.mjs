@@ -1,0 +1,6 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readMood,moodStyles,renameTrack,trackTitle} from '../public/flow-model.js';
+test('spoken and typed mood answers select a musical style',()=>{assert.equal(readMood('我的心情是平静'),'平静');assert.equal(readMood('今天很兴奋'),'兴奋');assert.equal(readMood('我很高兴'),'开心');assert.equal(readMood('开始游戏'),null);assert.equal(moodStyles[readMood('我想要舒缓一点')].bpm,96);});
+test('renaming preserves legacy rhythm and rejects empty names',()=>{const tracks=[{id:'legacy',mood:'开心',times:[0,600]}];assert.equal(trackTitle(tracks[0]),'开心的小节奏');assert.equal(renameTrack(tracks,'legacy','   ').ok,false);assert.equal(renameTrack(tracks,'legacy','风吹过草地').ok,true);assert.equal(trackTitle(tracks[0]),'风吹过草地');assert.deepEqual(tracks[0].times,[0,600]);assert.equal(renameTrack(tracks,'missing','作品').ok,false);assert.equal(renameTrack(tracks,'legacy','长'.repeat(25)).ok,false);});
+test('user-defined mood mapping fixes the pet and game',async()=>{const {gameForMood}=await import('../public/flow-model.js');assert.equal(gameForMood('开心').petId,'penguin');assert.equal(gameForMood('开心').gameId,'jump-rope');assert.equal(gameForMood('平静').petId,'whale');assert.equal(gameForMood('平静').gameId,'jump-rope');assert.equal(gameForMood('兴奋'),null);});

@@ -1,0 +1,13 @@
+{
+  "provider": "Tripo",
+  "taskId": "b3d595cb-5766-4580-a556-c83cebfa71a0",
+  "prompt": "An adorable simple stylized cartoon baby penguin for a cheerful rhythm game. Strong recognizable penguin silhouette: one plump rounded egg-shaped body with a small rounded head, charcoal black back and crown, a clean large white face patch and white belly, tiny glossy black eyes, small bright orange triangular beak, and two short rounded orange feet. Two tiny stubby flippers held gently away from the body. Large friendly face, chubby proportions, soft rounded contours, charming calm happy expression. Smooth matte clay-like surfaces, flat clean color blocks, minimal detail, no fur and no feathers. Upright neutral standing pose, full body, complete on all sides. Original generic penguin character, no clothing, props, text, logo, background, ground, or pedestal.",
+  "source": "original text-to-model; no reference uploaded",
+  "sha256": "b01455f363b78c6edeb68a5bf39f7f0502760dce41861df3805d724e985db43c",
+  "bytes": 1890804,
+  "creditsConsumed": 20.0,
+  "meshes": 1,
+  "materials": 1,
+  "images": 3,
+  "animations": 0
+}

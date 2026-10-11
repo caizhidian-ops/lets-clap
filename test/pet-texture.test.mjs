@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';
+test('plush penguin retains embedded color and fabric maps',async()=>{const b=await readFile(new URL('../public/assets/plush-v2/penguin.glb',import.meta.url));const j=JSON.parse(b.subarray(20,20+b.readUInt32LE(12)));assert.equal(j.images.length,3);assert.ok(j.materials[0].pbrMetallicRoughness.baseColorTexture);assert.ok(j.materials[0].normalTexture);});

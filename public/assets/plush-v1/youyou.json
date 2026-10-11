@@ -1,0 +1,14 @@
+{
+  "provider": "Tripo",
+  "taskId": "5dbb55ce-a57c-4c62-82cf-8514ebc74f3a",
+  "name": "悠悠 · 卷尾云团",
+  "prompt": "One original fantasy cloud rhythm creature, plump lavender-blue plush, body shaped like a rounded three-lobed cloud with a low wide silhouette. A short thick curled spiral tail visible on its right side, two tiny rounded feet, two mitten hands held slightly apart. No ears, no fins, no beak. Cream crescent-shaped chest patch, two small glossy dark eyes, blush cheeks and a relaxed little smile. Dense fluffy short-pile faux fur with soft fiber surface detail and handmade seams. Full body standing upright, front facing, finished on all sides, cozy game collectible with matte fabric. No ground, pedestal, scenery, text or clothing. Invented cloud creature, not a whale, penguin, dog or existing branded toy.",
+  "source": "original text-to-model; reference photos not uploaded",
+  "sha256": "447831d2ec3013ba0ada1b877d2a121789049ecd0d7c0b900f6b2affdadc16d4",
+  "bytes": 4126556,
+  "creditsConsumed": 20.0,
+  "meshes": 1,
+  "materials": 1,
+  "images": 3,
+  "triangles": 28764
+}

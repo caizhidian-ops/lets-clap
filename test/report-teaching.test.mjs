@@ -1,0 +1,4 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {rhythmTeaching} from '../public/report-view.js';
+test('teaching distinguishes beats from clap onsets and explains actual rests and half beats',()=>{const html=rhythmTeaching({sourceBpm:72,sourceDurationSec:8*60/72,expectedTimes:[0,60000/72/2,60000/72*2],mioPlan:{meter:'4/4',events:[{rest:true},{rest:false}]}});for(const text of ['72 BPM','8 拍','3 次目标拍手','4/4 拍','1 处休止','八分音符','不表示已经掌握'])assert.ok(html.includes(text),text);});
+test('uniform tracks do not invent rests or eighth notes',()=>{const html=rhythmTeaching({bpm:96,durationSec:30,expectedTimes:[0,625,1250]});assert.ok(html.includes('48 拍'));assert.ok(!html.includes('八分音符'));assert.ok(!html.includes('处休止'));});
+test('historical tracks without timeline get no invented facts',()=>{assert.ok(rhythmTeaching({durationSec:30}).includes('缺少完整节奏时间轴'));assert.ok(!rhythmTeaching({durationSec:30}).includes('BPM'));});

@@ -1,3 +1,4 @@
+import {saveHandoff} from '/integration-handoff.js';
 import {AudioEngine} from '../audio/engine.js';
 import {analyze} from '../audio/analysis.js';
 import {loadPet,savePet,loadWork,saveWork,deleteWork} from '../store/storage.js';
@@ -7,7 +8,9 @@ import {prompts,promptForState} from './prompts.js';
 import {VoiceEndpoint} from '../audio/voice-endpoint.js';
 const app=document.querySelector('#app'),audio=new AudioEngine();
 let state,config,attempt=null,accepted=null,busy=false,playing=false,voiceActive=false,voicePending=false,ws=null,voiceTurn=null,personality='happy',voiceTimer=null,speechBusy=false,nameCandidate='',toastTimer,voiceReady=null,hatchRevealTimer=null,cueAudio=null,cueResolve=null,hatchRun=0;
-let actPending=0,voiceEnabled=false,guidanceSerial=0,spokenKey='',previewedKey='',recordReady=false,pendingLocal=null,devOpen=false,voiceError='';
+let actPending=0,voiceEnabled=true,guidanceSerial=0,spokenKey='',previewedKey='',recordReady=false,pendingLocal=null,devOpen=false,voiceError='';
+let initialGuidanceVersion=null,initialGuidancePending=false;
+let gestureRequired=false,promptBlocked=false,enteringWindmill=false,voiceGeneration=0;
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const labels={happy:'开心',calm:'平静',excited:'兴奋'};
 const personalities={happy:'欢快',quiet:'安静',silly:'搞怪'};
@@ -48,16 +51,17 @@ function content(){
   if(s==='ADVENTURE_INTRO')return '<div class="eyebrow">THE WINDMILL ADVENTURE</div><h1>听，风车转起来了。</h1><div class="bubble">哇！前面有一个大风车！看到它，你是什么心情呀？</div>'+button('看看风车','intro','primary',busy);
   if(s==='MOOD_SELECT')return '<div class="eyebrow">A FEELING BECOMES A RHYTHM</div><h1>看到大风车，<br>你是什么心情呀？</h1><p class="intro">把此刻的感觉，变成一段拍手节奏。</p><div class="options">'+Object.entries(labels).map(([m,n],i)=>'<button class="option" data-mood="'+m+'" '+(busy?'disabled':'')+'><div class="icon">'+['☀','≈','✧'][i]+'</div><b>'+n+'</b><span>'+['明亮，轻轻跳跃','舒缓，留点空白','活泼，多点变化'][i]+'</span></button>').join('')+'</div>';
   if(s==='ARRANGEMENT_LOADING')return '<h1>让心情变成节奏…</h1><p>正在准备你的节奏。</p>';
-  if(s==='PLAN_PREVIEW')return '<div class="eyebrow">YOUR TWO-BAR RHYTHM</div><h1>让风车，<br>跟着你的节奏转。</h1><div class="panel">'+meta()+rhythm()+'<div class="actions">'+button(playing?'停止试听':'听听看 ♪',playing?'stop':'preview','secondary',busy||speechBusy)+button('开始挑战','challenge','primary',busy||playing||voiceActive||voicePending||speechBusy)+'</div><div class="actions" style="margin-top:14px">'+adjustment()+button('慢一点','slow','small',busy)+(accepted?.plan.planId===state.plan.planId?button('试听已保留版本','saved','small',busy):'')+'</div><p class="hint">试听速度 '+Math.round(state.plan.previewTempoFactor*100)+'%。挑战使用原歌曲速度。</p><p class="hint">挑战时采集拍手并保存在本机，不上传。建议戴耳机；录音时仅显示拍点。</p></div>';
+  if(s==='PLAN_PREVIEW')return '<div class="eyebrow">YOUR TWO-BAR RHYTHM</div><h1>让风车，<br>跟着你的节奏转。</h1><div class="panel">'+meta()+rhythm()+'<div class="actions">'+button(playing?'停止试听':'听听看 ♪',playing?'stop':'preview','secondary',busy||speechBusy)+button('开始挑战','challenge','primary',busy||playing||voiceActive||voicePending||speechBusy)+'</div><div class="actions" style="margin-top:14px">'+adjustment()+button('慢一点','slow','small',busy)+(accepted?.plan.planId===state.plan.planId?button('试听已保留版本','saved','small',busy):'')+'</div><p class="hint">试听速度 '+Math.round(state.plan.previewTempoFactor*100)+'%。挑战使用原歌曲速度。</p><p class="hint">挑战中可开启拍手检测，只保存拍点，不保存原始录音。建议戴耳机。</p></div>';
   if(['RECORD_COUNT_IN','RECORDING'].includes(s))return '<div class="eyebrow">YOUR HANDS MAKE THE MUSIC</div><h1>'+ (s==='RECORD_COUNT_IN'?'听四拍，准备好。':'轮到你啦！')+'</h1><div class="panel"><div class="record-status"><i class="dot"></i><span id="record-label">现在跟着原来的歌曲速度拍</span></div>'+rhythm()+'<div class="wave">'+Array.from({length:24},()=>'<i></i>').join('')+'</div><div class="progress"><div></div></div>'+button('停止本次录音','cancel','ghost')+'<p class="hint">中途停止不会覆盖已保留的录音。语音对话已暂停。</p></div>';
   if(s==='ANALYZING')return '<h1>听听你的拍手。</h1><div class="bubble">让我听听你的节奏。</div>';
   if(s==='FEEDBACK')return '<div class="eyebrow">A LITTLE PRACTICE, A LITTLE PROGRESS</div><h1>这是你的节奏。</h1><div class="panel"><p>'+escape(state.feedback?.text||'本次未能准确判断拍点。')+'</p><div class="stats">'+(state.analysis?.status==='reliable'?'检测到 '+state.analysis.detectedCount+' 个声音起始点；目标 '+state.analysis.expectedCount+' 个。<br>未匹配目标：'+state.analysis.matchSummary.missed+'；额外声音：'+state.analysis.matchSummary.extra+'。':'检测不可靠，本次不评价准确性。')+'<br>设备延迟未校准，不给出确定的早晚评价。</div><div class="actions">'+button('保留这次','accept','primary',busy||!attempt)+button('听我的拍手','raw','secondary',busy||!attempt)+button('再练一次','retry','ghost',busy)+'</div><div class="actions" style="margin-top:14px">'+adjustment()+'</div><p class="hint">'+(state.feedback?.source==='ai_evidence_validated'?'千问选择了真实证据支持的反馈':'规则反馈 · 来自本地实际检测')+'</p><details class="details"><summary>本次检测时间点</summary><p>'+escape(attempt?.capture.onsets.map(t=>t.toFixed(3)+'s').join(' · ')||'没有可靠起始点')+'</p></details></div>';
-  if(s==='WORK_PREVIEW')return '<div class="eyebrow">MADE BY YOU</div><h1>风车里，<br>有你的拍手声。</h1><div class="panel"><p>我的《大风车》拍手版片段 · 2 小节</p><div class="actions">'+button(playing?'停止试听':'试听我的作品 ♪',playing?'stop':'mix','primary',busy||!accepted)+button('再练一次','retry','ghost',busy)+'</div><label class="volume">真实拍手音量 <input id="clap-volume" type="range" min="0" max="1" step=".05" value=".8"></label><label class="volume">旋律伴奏音量 <input id="backing-volume" type="range" min="0" max="1" step=".05" value=".65"></label><p class="hint">'+(config.backingAsset?'使用配置的两小节伴奏，来源待审核。':'开发模式：按真实曲谱前两小节合成旋律，素材授权与速度待审核。')+'</p><div class="actions" style="margin-top:15px">'+button('删除本地作品','delete','small danger',busy)+adjustment()+'</div></div>';
+  if(s==='WORK_PREVIEW')return '<div class="eyebrow">MADE BY YOU</div><h1>风车里，<br>有你的拍手声。</h1><div class="panel"><p>我的《大风车》拍手版 · 4 小节录音重复 3 次，30 秒作品</p><div class="actions">'+button(playing?'停止试听':'试听我的作品 ♪',playing?'stop':'mix','primary',busy||!accepted)+button('再练一次','retry','ghost',busy)+'</div><label class="volume">真实拍手音量 <input id="clap-volume" type="range" min="0" max="1" step=".05" value=".8"></label><label class="volume">旋律伴奏音量 <input id="backing-volume" type="range" min="0" max="1" step=".05" value=".65"></label><p class="hint">'+'使用 96 BPM、30 秒《大风车》无鼓伴奏。'+'</p><div class="actions" style="margin-top:15px">'+button('删除本地作品','delete','small danger',busy)+adjustment()+'</div></div>';
   return '<p>正在加载…</p>';
 }
 function render(){
+  if(state.state==='PLAN_PREVIEW'&&state.plan){app.innerHTML='<section class="windmill-transition"><h1>那我们直接去风车里面看下。</h1><p role="status">'+(gestureRequired?'点一下，让伙伴说完再出发。':'听伙伴说完，我们就出发。')+'</p><button id="enter-windmill-voice">听伙伴说</button></section>';document.querySelector('#enter-windmill-voice').onclick=()=>{gestureRequired=false;enterWindmill();};queueMicrotask(enterWindmill);return;}
   const home=isHome(),early=['HATCH_SELECT','HATCH_GUIDE','HATCH_REVEAL'].includes(state.state),canVoice=['HATCH_SELECT','PET_NAMING','PET_HOME','MOOD_SELECT','PLAN_PREVIEW','FEEDBACK','WORK_PREVIEW'].includes(state.state);
-  app.innerHTML='<div class="shell"><header class="top"><div class="brand"><span class="brand-icon">✦</span>let&#39;s clap<small>一起拍手吧</small></div><div class="top-right">'+(!config.aiEnabled?'<span class="mode">语音暂不可用</span>':'')+(!home&&['MOOD_SELECT','PLAN_PREVIEW','FEEDBACK','WORK_PREVIEW'].includes(state.state)?button('← 宠物','home','small ghost',busy):'')+'</div></header><section class="hero '+(home?'home':'adventure')+' '+(state.plan?.mood||'')+'"><div class="pet-stage '+(state.state==='ADVENTURE_INTRO'?'walking':state.state==='HATCH_REVEAL'?'reveal':'')+'">'+(early?eggArt(personality):petArt(state.pet?.personality||personality))+(early?'':'<span class="pet-tag">'+escape(state.pet?.name||'你的新伙伴')+' · '+personalities[state.pet?.personality||personality]+'</span>')+'</div>'+scene()+'<div class="content">'+content()+(canVoice?'<div class="voice"><button data-action="voice" class="'+(voiceActive?'listening':'')+'" aria-label="'+(voiceActive?'结束说话':'开始语音对话')+'" '+(!config.aiEnabled||busy||playing||speechBusy||voicePending?'disabled':'')+'>'+ (voiceActive?'■':'🎙')+'</button><div><strong>'+ (voiceActive?'我在听，你说吧':voicePending?'让我想一想…':speechBusy?'听小伙伴说一说':voiceEnabled?(recordReady&&state.state==='PLAN_PREVIEW'?'准备好就点开始挑战':nameCandidate&&state.state==='PET_NAMING'?'喜欢名字就点确认':'点麦克风可以继续说'):'开始语音互动')+'</strong><span>'+ (voiceActive?'说完会自动结束，也可以点方块。':!config.aiEnabled?'可以用按钮继续玩。':voiceEnabled?'可以说出你的想法，也可以点选。':'点麦克风开始，之后说完就能继续。')+'</span></div>'+(voiceEnabled?button('暂停语音','pausevoice','small ghost'):'')+'</div>':'')+'</div></section><details class="developer" '+(devOpen?'open':'')+'><summary>开发信息</summary><div class="dev-body"><p>'+escape(config.aiEnabled?'千问已连接':config.aiUnavailableReason||'AI 未连接')+' · '+(config.backingAsset?'已配置伴奏':'开发模式：曲谱合成旋律，素材与速度待审核')+'</p><p>对话语音发送至千问；拍手录音只保存在本机，可删除。</p>'+button('返回孵化','rehatch','small ghost dev-rehatch',busy||['RECORD_COUNT_IN','RECORDING','ANALYZING'].includes(state.state))+(voiceError?'<p>语音诊断：'+escape(voiceError)+'</p>':'')+'<div id="dev-details"></div></div></details></div>';
+  app.innerHTML='<div class="shell"><header class="top"><div class="brand"><span class="brand-icon">✦</span>let&#39;s clap<small>一起拍手吧</small></div><div class="top-right">'+(!config.aiEnabled?'<span class="mode">语音暂不可用</span>':'')+(!home&&['MOOD_SELECT','PLAN_PREVIEW','FEEDBACK','WORK_PREVIEW'].includes(state.state)?button('← 宠物','home','small ghost',busy):'')+'</div></header><section class="hero '+(home?'home':'adventure')+' '+(state.plan?.mood||'')+'"><div class="pet-stage '+(state.state==='ADVENTURE_INTRO'?'walking':state.state==='HATCH_REVEAL'?'reveal':'')+'">'+(early?eggArt(personality):petArt(state.pet?.personality||personality))+(early?'':'<span class="pet-tag">'+escape(state.pet?.name||'你的新伙伴')+' · '+personalities[state.pet?.personality||personality]+'</span>')+'</div>'+scene()+'<div class="content">'+content()+(canVoice?'<div class="voice"><button data-action="voice" class="'+(voiceActive?'listening':'')+'" aria-label="'+(voiceActive?'结束说话':'开始语音对话')+'" '+(!config.aiEnabled||busy||playing||speechBusy||voicePending?'disabled':'')+'>'+ (voiceActive?'■':'🎙')+'</button><div><strong>'+ (voiceActive?'我在听，你说吧':voicePending?'让我想一想…':speechBusy?'听小伙伴说一说':voiceEnabled?(recordReady&&state.state==='PLAN_PREVIEW'?'准备好就点开始挑战':nameCandidate&&state.state==='PET_NAMING'?'喜欢名字就点确认':'准备好听你说'):'开始语音互动')+'</strong><span>'+ (voiceActive?'说完会自动结束，也可以点方块。':!config.aiEnabled?'可以用按钮继续玩。':voiceEnabled?'说出你的想法。':'点麦克风开始，之后说完就能继续。')+'</span></div>'+'</div>':'')+'</div></section><details class="developer" '+(devOpen?'open':'')+'><summary>开发信息</summary><div class="dev-body"><p>'+escape(config.aiEnabled?'千问已连接':config.aiUnavailableReason||'AI 未连接')+' · '+(config.backingAsset?'已配置伴奏':'开发模式：曲谱合成旋律，素材与速度待审核')+'</p><p>对话语音发送至千问；游戏拍手录音只保存在本机，与伴奏合成作品。</p>'+button('返回孵化','rehatch','small ghost dev-rehatch',busy||['RECORD_COUNT_IN','RECORDING','ANALYZING'].includes(state.state))+(voiceError?'<p>语音诊断：'+escape(voiceError)+'</p>':'')+'<div id="dev-details"></div></div></details></div>';
   tidyInterface();bind();queueMicrotask(()=>driveGuidance().catch(guidanceError));
 }
 function highlight(elapsed,plan=state.plan){
@@ -78,7 +82,7 @@ async function playCue(id){
   return new Promise(resolve=>{
     const finish=ok=>{if(cueAudio===player){cueAudio=null;cueResolve=null;}player.onended=null;player.onerror=null;resolve(ok);};
     cueResolve=finish;player.onended=()=>finish(true);player.onerror=()=>finish(false);
-    player.play().catch(()=>finish(false));
+    player.play().catch(error=>{promptBlocked=error.name==='NotAllowedError';finish(false);});
   });
 }
 async function runGuide(){
@@ -124,35 +128,12 @@ function spinPet(){
 }
 async function challenge(){
   if(busy||playing||voiceActive||voicePending||speechBusy)return;
-  busy=true;render();let stream;
-  try{
-    stopVoice();cancelGuidance();audio.stopPlayback();
-    await playCue('record');
-    if(document.hidden)throw Error('请回到页面再开始挑战。');
-    stream=await audio.acquire();
-    await act('start_challenge');busy=false;render();
-    const plan=structuredClone(state.plan);
-    let phasePromise=null;
-    const capture=await audio.record(plan,stream,(t,level)=>{
-      const n=document.querySelector('#record-label');
-      if(n)n.textContent=t<0?'准备 '+Math.min(4,Math.ceil(-t/(60/plan.bpm))):'拍手中 · '+Math.min(8,Math.floor(t/(60/plan.bpm))+1)+' / 8 拍';
-      highlight(t,{...plan,previewTempoFactor:1});
-      const bar=document.querySelector('.progress div');if(bar)bar.style.width=Math.max(0,Math.min(100,t/plan.durationSec*100))+'%';
-      document.querySelectorAll('.wave i').forEach((n,i)=>n.style.height=(6+Math.min(32,level*450)*(1+(i%4)/4))+'px');
-    },()=>{phasePromise=act('count_in_complete');});
-    if(phasePromise)await phasePromise;else if(state.state==='RECORD_COUNT_IN')await act('count_in_complete');
-    await act('capture_complete');
-    const recordingId=crypto.randomUUID(),analysis=analyze(plan,capture,recordingId);
-    attempt={recordingId,plan,blob:capture.blob,capture:{onsets:capture.onsets,qualityFlags:capture.qualityFlags},analysis,createdAt:new Date().toISOString()};
-    state=await api('analysis',{analysis});render();
-    if(state.feedbackAudio){cancelGuidance();speechBusy=true;render();try{await audio.playSpeech(state.feedbackAudio);}finally{speechBusy=false;render();}}
-  }catch(e){
-    stream?.getTracks().forEach(t=>t.stop());audio.cancel();
-    if(['RECORD_COUNT_IN','RECORDING','ANALYZING'].includes(state.state))try{await act('cancel');}catch{}
-    toast(e.message);
-  }finally{busy=false;render();}
+  stopVoice();cancelGuidance();audio.cancel();
+  try{if(state.plan?.mood==='excited')throw Error('兴奋关卡还没开放，这次先选开心或平静吧。');saveHandoff(sessionStorage,{plan:state.plan,pet:state.pet});location.assign('/practice.html');}
+  catch(e){toast(e.message);}
 }
 function stopVoice(){
+  voiceGeneration++;
   voiceReady?.reject(Error('语音已取消'));voiceReady=null;
   clearTimeout(voiceTimer);audio.stopVoice();
   if(ws?.readyState===1&&voiceTurn)ws.send(JSON.stringify({type:'cancel',turnId:voiceTurn}));
@@ -161,12 +142,12 @@ function stopVoice(){
 async function connectVoice(){
   if(ws?.readyState===1)return;
   ws=new WebSocket((location.protocol==='https:'?'wss://':'ws://')+location.host+'/voice');
-  await new Promise((resolve,reject)=>{ws.onopen=resolve;ws.onerror=()=>reject(Error('语音服务连接失败'));});
+  await new Promise((resolve,reject)=>{const timer=setTimeout(()=>{ws.close();reject(Error('语音服务连接超时，请重试。'));},8000);ws.onopen=()=>{clearTimeout(timer);resolve();};ws.onerror=()=>{clearTimeout(timer);reject(Error('语音服务连接失败，请重试。'));};});
   ws.onmessage=async({data})=>{
     const e=JSON.parse(data);
     if(e.type==='ready'&&e.turnId===voiceTurn){voiceReady?.resolve();voiceReady=null;return;}
     if(e.type==='state'){if(e.sceneVersion<state.sceneVersion)return;if(e.sceneVersion!==state.sceneVersion)cancelGuidance();state={...state,...e};personality=e.personality||personality;render();return;}
-    if(e.type==='error'){guidanceError(Error(e.message));return;}
+    if(e.type==='error'){if(e.turnId&&e.turnId!==voiceTurn)return;guidanceError(Error(e.message));return;}
     if(e.turnId&&e.turnId!==voiceTurn)return;
     if(e.type==='local_action'){pendingLocal=e.command;return;}
     if(e.type==='name_candidate'){nameCandidate=e.name;render();}
@@ -199,9 +180,9 @@ function submitVoice(){
   ws.send(JSON.stringify({type:'commit',turnId:voiceTurn}));render();
 }
 async function startListening(){
-  if(!voiceEnabled||voiceActive||voicePending||speechBusy||playing||busy||document.hidden)return;
-  voicePending=true;render();
-  await audio.ready();await connectVoice();voiceTurn=crypto.randomUUID();
+  if(!config.aiEnabled||!voiceEnabled||voiceActive||voicePending||speechBusy||playing||busy||document.hidden)return;
+  const generation=voiceGeneration;voicePending=true;render();
+  await audio.ready();await connectVoice();if(generation!==voiceGeneration)return;voiceTurn=crypto.randomUUID();
   const turn=voiceTurn,version=state.sceneVersion,endpoint=new VoiceEndpoint();
   const ready=new Promise((resolve,reject)=>{const timer=setTimeout(()=>{voiceReady=null;reject(Error('语音服务未就绪'));},4000);voiceReady={resolve:()=>{clearTimeout(timer);resolve();},reject:e=>{clearTimeout(timer);reject(e);}};});
   ws.send(JSON.stringify({type:'begin',turnId:turn,sceneVersion:version}));await ready;
@@ -221,10 +202,10 @@ async function startListening(){
 async function toggleVoice(){
   if(voiceActive){submitVoice();return;}
   if(voicePending||speechBusy||playing||busy)return;
-  voiceEnabled=true;spokenKey='';cancelGuidance();await audio.ready();await driveGuidance();
+  initialGuidancePending=false;gestureRequired=false;voiceEnabled=true;spokenKey=promptKey(guideStep());await startListening();
 }
-function cancelGuidance(reset=true){guidanceSerial++;stopCue();speechBusy=false;if(reset)spokenKey='';}
-function guidanceError(e){voiceError=e.message||'语音暂时不可用';voiceEnabled=false;stopVoice();cancelGuidance();render();toast('语音暂时没接上，可以点选继续玩。');}
+function cancelGuidance(reset=true){const interrupted=speechBusy;guidanceSerial++;stopCue();speechBusy=false;if(reset&&interrupted)spokenKey='';}
+function guidanceError(e){if(e.name==='NotAllowedError')e=Error('麦克风权限没有打开，请在浏览器允许麦克风后重试');if(/已取消|轮次已过期|过期场景/.test(e.message||''))return;voiceError=e.message||'语音暂时不可用';voiceEnabled=false;stopVoice();cancelGuidance();render();toast(voiceError+'。点麦克风重试，或用屏幕按钮继续。');}
 function planKey(){return state.plan?state.plan.planId+'@'+state.plan.previewTempoFactor:'';}
 function guideStep(){
   if(state.state==='PLAN_PREVIEW')return recordReady?'challenge':previewedKey!==planKey()?'demo':'ready';
@@ -234,7 +215,9 @@ function guideStep(){
 function promptKey(id){return state.sceneVersion+':'+id+':'+(id==='name_confirm'?nameCandidate:'');}
 async function driveGuidance(){
   const passive=['ARRANGEMENT_LOADING','ANALYZING'].includes(state?.state);
-  if(!state||document.hidden||playing||speechBusy||voiceActive||(!passive&&(voicePending||busy||actPending)))return;
+  if(!state||gestureRequired||document.hidden||playing||speechBusy||voiceActive||(!passive&&(voicePending||busy||actPending)))return;
+  if(state.state==='PLAN_PREVIEW'&&state.plan){await enterWindmill();return;}
+  if(initialGuidancePending&&state.sceneVersion===initialGuidanceVersion)return;
   const id=guideStep();if(!id)return;
   const key=promptKey(id);
   if(key===spokenKey)return;
@@ -242,7 +225,7 @@ async function driveGuidance(){
   speechBusy=true;render();const played=await playCue(id);
   if(run!==guidanceSerial||version!==state.sceneVersion)return;
   speechBusy=false;render();
-  if(!played){if(voiceEnabled)toast('语音提示暂未播放，请看当前问题或点选继续。');return;}
+  if(!played){spokenKey='';gestureRequired=true;if(!gestureRequired)toast('引导声音未能播放，点麦克风可以继续回答。');return;}
   if(id==='intro'){await act('intro_complete');return;}
   if(id==='demo'){await preview();return;}
   if(prompts[id].listen&&voiceEnabled)await startListening();
@@ -255,15 +238,9 @@ function tidyInterface(){
     if(/千问|开发模式|设备|素材|速度|录音|校准|本地|BPM|确认才会保存/.test(n.textContent))dev.append(n);
   });
   document.querySelector('.developer').ontoggle=e=>devOpen=e.currentTarget.open;
-  const alternate=document.createElement('details');alternate.className='alternatives';alternate.innerHTML='<summary>也可以点选</summary>';
-  document.querySelectorAll('.options').forEach(n=>alternate.append(n));
-  document.querySelectorAll('.actions').forEach(n=>{
-    if(!n.querySelector('[data-action="challenge"],[data-action="accept"]'))alternate.append(n);
-    else n.querySelectorAll('[data-action="preview"],[data-action="stop"],[data-action="raw"],[data-action="retry"]').forEach(b=>alternate.append(b));
-  });
-  if(alternate.children.length>1)document.querySelector('.content').append(alternate);
+  document.querySelectorAll('.alternatives').forEach(n=>n.remove());
   // Keep the two explicit confirmation buttons prominent; technical controls live in the drawer.
-  if(state.state==='HATCH_SELECT'&&!voiceEnabled){const note=document.createElement('p');note.className='privacy-note';note.textContent='对话发送到千问，拍手录音只存本机。';document.querySelector('.voice')?.append(note);}
+  if(state.state==='HATCH_SELECT'&&!voiceEnabled){const note=document.createElement('p');note.className='privacy-note';note.textContent='对话发送到千问，游戏拍手录音只存本机。';document.querySelector('.voice')?.append(note);}
 }
 async function handle(action){
   if(action==='hatch-prompt'){stopVoice();cancelGuidance();spokenKey='';await driveGuidance();return;}
@@ -318,13 +295,18 @@ function bind(){
   document.querySelector('#clap-volume')?.addEventListener('input',e=>{if(audio.mixGain)audio.mixGain.gain.value=Number(e.target.value);});
   document.querySelector('#backing-volume')?.addEventListener('input',e=>{if(audio.backingGain)audio.backingGain.gain.value=Number(e.target.value);});
 }
+document.addEventListener('click',e=>{
+  if(!state||!(initialGuidancePending||gestureRequired)||e.target.closest('button,input,textarea,select,a,label,summary,[role="button"],[contenteditable],[data-action],[data-personality],[data-mood]'))return;
+  initialGuidancePending=false;gestureRequired=false;
+  driveGuidance().catch(guidanceError);
+});
 document.addEventListener('visibilitychange',()=>{
   if(document.hidden){++hatchRun;cancelGuidance();stopVoice();audio.cancel();playing=false;clearSpin();if(state?.state==='PET_NAMING')render();if(['RECORD_COUNT_IN','RECORDING'].includes(state?.state))act('cancel').catch(()=>{});}
   else if(state?.state==='HATCH_GUIDE')runGuide().catch(e=>toast(e.message));
   else if(state?.state==='HATCH_REVEAL'){
     clearTimeout(hatchRevealTimer);
     act('reveal_complete').then(()=>spinPet()).catch(e=>toast(e.message));
-  }else if(state){spokenKey='';render();}
+  }else if(state){render();}
 });
 window.addEventListener('pagehide',()=>{++hatchRun;cancelGuidance();stopVoice();audio.cancel();});
 async function boot(){
@@ -332,7 +314,20 @@ async function boot(){
     config=await api('config');
     try{accepted=await loadWork();}catch{toast('本地作品存储不可用，可使用本次会话。');}
     state=await api('init',{pet:loadPet(),work:accepted?{plan:accepted.plan}:null});
+    initialGuidanceVersion=state.sceneVersion;
     personality=state.pet?.personality||'happy';render();
   }catch(e){app.textContent='启动失败：'+e.message;}
 }
 boot();
+
+document.addEventListener('keydown',e=>{if(e.repeat||!['Space','Enter'].includes(e.code)||e.target.closest('button,input,textarea,select,a,[contenteditable]'))return;if(state?.state==='PET_HOME'){e.preventDefault();handle('enter');}else if(gestureRequired){e.preventDefault();gestureRequired=false;driveGuidance().catch(guidanceError);}});
+
+async function enterWindmill(){
+ if(enteringWindmill||!state?.plan||gestureRequired||voicePending||busy||actPending)return;
+ enteringWindmill=true;stopVoice();cancelGuidance();audio.cancel();
+ const version=state.sceneVersion;speechBusy=true;
+ const played=await playCue('enter_windmill');speechBusy=false;
+ if(state.sceneVersion!==version){enteringWindmill=false;return;}
+ if(!played){enteringWindmill=false;gestureRequired=true;render();return;}
+ try{saveHandoff(sessionStorage,{plan:state.plan,pet:state.pet});location.assign('/practice.html');}catch(e){enteringWindmill=false;toast(e.message);}
+}

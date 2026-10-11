@@ -91,7 +91,16 @@ export class AudioEngine {
     const b=await this.buffer(record.blob);this.stopPlayback();const at=this.ctx.currentTime+.1;this.playBuffer(b,at,.8);this.animate(at,b.duration,()=>{},onDone);
   }
   async mix(record,score,config,clapVolume,onDone){
-    const b=await this.buffer(record.blob);let backing=null;
+    const b=await this.buffer(record.blob);
+    if(record.plan.bpm===96&&record.plan.durationSec===10){
+      const res=await fetch('/assets/audio/da-feng-che-96bpm.wav');if(!res.ok)throw Error('伴奏文件缺失，无法混音试听。');
+      const backing=await this.ctx.decodeAudioData(await res.arrayBuffer());if(Math.abs(backing.duration-30)>.1)throw Error('伴奏长度不正确');
+      // Pad or trim the recording to exactly four bars before looping.
+      const loop=this.ctx.createBuffer(b.numberOfChannels,Math.round(10*this.ctx.sampleRate),this.ctx.sampleRate);
+      for(let i=0;i<b.numberOfChannels;i++)loop.copyToChannel(b.getChannelData(i).subarray(0,loop.length),i);
+      this.stopPlayback();const at=this.ctx.currentTime+.15,s=this.ctx.createBufferSource(),gain=this.ctx.createGain();s.buffer=loop;s.loop=true;s.loopEnd=10;gain.gain.value=clapVolume;s.connect(gain).connect(this.ctx.destination);s.start(at);s.stop(at+30);this.nodes.push(s);this.mixGain=gain;this.backingGain=this.playBuffer(backing,at,.65);this.animate(at,30,()=>{},onDone);return;
+    }
+    let backing=null;
     if(config.backingAsset){const res=await fetch(config.backingAsset);if(!res.ok)throw Error('伴奏文件缺失，无法混音试听。');backing=await this.ctx.decodeAudioData(await res.arrayBuffer());if(Math.abs(backing.duration-record.plan.durationSec)>.15)throw Error('伴奏长度与两小节不一致，请审核素材。');}
     this.stopPlayback();const at=this.ctx.currentTime+.15;
     this.mixGain=this.playBuffer(b,at,clapVolume);
