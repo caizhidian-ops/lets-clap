@@ -27,7 +27,7 @@ export const server=http.createServer(async(req,res)=>{
 
  for(const name of ['escape-world.js','night-music.js','vendor/three.module.js','vendor/three.core.js','vendor/GLTFLoader.js','vendor/BufferGeometryUtils.js'])files['/game/'+name]='game/'+name;
  for(const name of ['monster.glb','windmill.glb'])files['/assets/rescue/'+name]='assets/rescue/'+name;
- for(const name of ['interior-world.js','interior-session.js','jump-rope-engine.js'])files['/game/'+name]='game/'+name;
+ for(const name of ['interior-world.js','interior-session.js','jump-rope-engine.js','jump-rope-motion.js'])files['/game/'+name]='game/'+name;
  files['/flow-medals.js']='flow-medals.js';
  files['/plush-fur.js']='plush-fur.js';
  for(const version of ['plush-v1','plush-v2'])for(const name of ['dongdong','youyou','bengbeng','windmill','whale','penguin','dachshund'])files['/assets/'+version+'/'+name+'.glb']='assets/'+version+'/'+name+'.glb';
