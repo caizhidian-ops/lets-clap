@@ -23,7 +23,7 @@ export const server=http.createServer(async(req,res)=>{
   try{let body='';for await(const chunk of req){body+=chunk;if(body.length>4096){res.writeHead(413);res.end();return;}}const result=await feedback(JSON.parse(body));res.writeHead(200,{'Content-Type':'application/json'});res.end(JSON.stringify(result));}
   catch(e){res.writeHead(e.message==='INVALID_INPUT'||e instanceof SyntaxError?400:502,{'Content-Type':'application/json'});res.end(JSON.stringify({error:'反馈暂时没连上，请重试。你的作品还在。'}));}return;
  }
- const files={'/':'index.html','/app.js':'app.js','/style.css':'style.css','/game/escape-scene.js':'game/escape-scene.js','/game/escape-engine.js':'game/escape-engine.js','/game/escape.css':'game/escape.css'};
+ const files={'/flow.js':'flow.js','/flow-model.js':'flow-model.js','/flow.css':'flow.css','/':'index.html','/app.js':'app.js','/style.css':'style.css','/game/escape-scene.js':'game/escape-scene.js','/game/escape-engine.js':'game/escape-engine.js','/game/escape.css':'game/escape.css'};
  const file=files[req.url?.split('?')[0]];if(!file){res.writeHead(404);res.end('Not found');return;}
  try{res.setHeader('Content-Type',file.endsWith('.js')?'text/javascript':file.endsWith('.css')?'text/css':'text/html');res.end(await readFile(root+file));}catch{res.writeHead(500);res.end('Unavailable');}
 });
