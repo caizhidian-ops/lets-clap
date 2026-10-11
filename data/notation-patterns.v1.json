@@ -1,0 +1,2233 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "节奏基础音值、组合与变化的结构化样本库",
+  "units": "quarter_note_beats",
+  "items": [
+    {
+      "id": "RHY-CELL-001",
+      "name": "一拍一次",
+      "category": "stage1_legacy",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "beat"
+      ],
+      "origin": "existing_animal_band_stage1_catalog",
+      "sourceReferences": [
+        "https://github.com/Mio0707/animal-band-data/blob/main/curriculum/stages/stage-1.json"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "参考现有第一学段 PAT 规则；体验先于名词，旧版 PAT 元数据继续保留。",
+      "legacyPatternId": "PAT-01"
+    },
+    {
+      "id": "RHY-CELL-002",
+      "name": "一拍两次",
+      "category": "stage1_legacy",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "beat"
+      ],
+      "origin": "existing_animal_band_stage1_catalog",
+      "sourceReferences": [
+        "https://github.com/Mio0707/animal-band-data/blob/main/curriculum/stages/stage-1.json"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "参考现有第一学段 PAT 规则；体验先于名词，旧版 PAT 元数据继续保留。",
+      "legacyPatternId": "PAT-02"
+    },
+    {
+      "id": "RHY-CELL-003",
+      "name": "前密后疏",
+      "category": "stage1_legacy",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "beat"
+      ],
+      "origin": "existing_animal_band_stage1_catalog",
+      "sourceReferences": [
+        "https://github.com/Mio0707/animal-band-data/blob/main/curriculum/stages/stage-1.json"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "参考现有第一学段 PAT 规则；体验先于名词，旧版 PAT 元数据继续保留。",
+      "legacyPatternId": "PAT-03"
+    },
+    {
+      "id": "RHY-CELL-004",
+      "name": "前疏后密",
+      "category": "stage1_legacy",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "beat"
+      ],
+      "origin": "existing_animal_band_stage1_catalog",
+      "sourceReferences": [
+        "https://github.com/Mio0707/animal-band-data/blob/main/curriculum/stages/stage-1.json"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "参考现有第一学段 PAT 规则；体验先于名词，旧版 PAT 元数据继续保留。",
+      "legacyPatternId": "PAT-04"
+    },
+    {
+      "id": "RHY-CELL-005",
+      "name": "一拍四次",
+      "category": "stage1_legacy",
+      "meter": "2/4",
+      "spanBeats": 1,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.25,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.75,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "sixteenth-experience"
+      ],
+      "origin": "existing_animal_band_stage1_catalog",
+      "sourceReferences": [
+        "https://github.com/Mio0707/animal-band-data/blob/main/curriculum/stages/stage-1.json"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "参考现有第一学段 PAT 规则；体验先于名词，旧版 PAT 元数据继续保留。",
+      "legacyPatternId": "PAT-05"
+    },
+    {
+      "id": "RHY-CELL-006",
+      "name": "前十六型",
+      "category": "stage1_legacy",
+      "meter": "2/4",
+      "spanBeats": 1,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.25,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "sixteenth-experience"
+      ],
+      "origin": "existing_animal_band_stage1_catalog",
+      "sourceReferences": [
+        "https://github.com/Mio0707/animal-band-data/blob/main/curriculum/stages/stage-1.json"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "参考现有第一学段 PAT 规则；体验先于名词，旧版 PAT 元数据继续保留。",
+      "legacyPatternId": "PAT-06"
+    },
+    {
+      "id": "RHY-CELL-007",
+      "name": "后十六型",
+      "category": "stage1_legacy",
+      "meter": "2/4",
+      "spanBeats": 1,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.75,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "sixteenth-experience"
+      ],
+      "origin": "existing_animal_band_stage1_catalog",
+      "sourceReferences": [
+        "https://github.com/Mio0707/animal-band-data/blob/main/curriculum/stages/stage-1.json"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "参考现有第一学段 PAT 规则；体验先于名词，旧版 PAT 元数据继续保留。",
+      "legacyPatternId": "PAT-07"
+    },
+    {
+      "id": "RHY-CELL-008",
+      "name": "小切分体验",
+      "category": "stage1_legacy",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "syncopation-experience"
+      ],
+      "origin": "existing_animal_band_stage1_catalog",
+      "sourceReferences": [
+        "https://github.com/Mio0707/animal-band-data/blob/main/curriculum/stages/stage-1.json"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "只要求能听、能唱、能模仿、能身体表现，不要求解释切分概念。",
+      "legacyPatternId": "PAT-08"
+    },
+    {
+      "id": "RHY-CELL-009",
+      "name": "一拍休止后返回",
+      "category": "rest",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": true,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "rest"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-010",
+      "name": "二分音符",
+      "category": "note-value",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 2,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 3,
+      "conceptTags": [
+        "half"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-011",
+      "name": "两拍四分与休止",
+      "category": "rest",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": true,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 2,
+      "conceptTags": [
+        "quarter-rest"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-012",
+      "name": "二分休止",
+      "category": "rest",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 2,
+          "rest": true,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 3,
+      "conceptTags": [
+        "rest"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-013",
+      "name": "全音符",
+      "category": "note-value",
+      "meter": "4/4",
+      "spanBeats": 4,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 4,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 5,
+      "conceptTags": [
+        "whole"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-014",
+      "name": "全休止",
+      "category": "rest",
+      "meter": "4/4",
+      "spanBeats": 4,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 4,
+          "rest": true,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 5,
+      "conceptTags": [
+        "rest"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-015",
+      "name": "三拍附点二分",
+      "category": "dotted",
+      "meter": "3/4",
+      "spanBeats": 3,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 3,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 4,
+      "conceptTags": [
+        "dotted"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-016",
+      "name": "附点四分+八分",
+      "category": "dotted",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 3,
+      "conceptTags": [
+        "dotted"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-017",
+      "name": "八分+附点四分",
+      "category": "dotted",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 4,
+      "conceptTags": [
+        "dotted"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-018",
+      "name": "附点八分+十六分",
+      "category": "dotted",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.75,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.75,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "dotted-experience"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://www.pep.com.cn/rjyy/rjyyxzx/xzx/202506/t20250617_2002129.html",
+        "https://www.pep.com.cn/rjyy/rjyyxzx/xzx/202506/t20250616_2002111.html"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-019",
+      "name": "十六分+附点八分",
+      "category": "dotted",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.25,
+          "durationBeats": 0.75,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "dotted-experience"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://www.pep.com.cn/rjyy/rjyyxzx/xzx/202506/t20250617_2002129.html",
+        "https://www.pep.com.cn/rjyy/rjyyxzx/xzx/202506/t20250616_2002111.html"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-020",
+      "name": "十六分四连+四分",
+      "category": "sixteenth",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.25,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.75,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 4,
+      "conceptTags": [
+        "sixteenth"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-021",
+      "name": "前十六+八分+四分",
+      "category": "sixteenth",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.25,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "sixteenth-experience"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://www.pep.com.cn/rjyy/rjyyxzx/xzx/202506/t20250617_2002129.html",
+        "https://www.pep.com.cn/rjyy/rjyyxzx/xzx/202506/t20250616_2002111.html"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-022",
+      "name": "八分+后十六+四分",
+      "category": "sixteenth",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.75,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "sixteenth-experience"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://www.pep.com.cn/rjyy/rjyyxzx/xzx/202506/t20250617_2002129.html",
+        "https://www.pep.com.cn/rjyy/rjyyxzx/xzx/202506/t20250616_2002111.html"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-023",
+      "name": "前十六+后十六",
+      "category": "sixteenth",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.25,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.75,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 4,
+      "conceptTags": [
+        "sixteenth"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-024",
+      "name": "一拍内两次十六+四分",
+      "category": "sixteenth",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.25,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.75,
+          "durationBeats": 0.25,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 5,
+      "conceptTags": [
+        "sixteenth"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-025",
+      "name": "半拍切分与还原",
+      "category": "syncopation",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 1,
+      "conceptTags": [
+        "syncopation-experience"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://www.pep.com.cn/rjyy/rjyyxzx/xzx/202506/t20250617_2002129.html",
+        "https://www.pep.com.cn/rjyy/rjyyxzx/xzx/202506/t20250616_2002111.html"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-026",
+      "name": "四分音符切分位置",
+      "category": "syncopation",
+      "meter": "4/4",
+      "spanBeats": 4,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 3,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 5,
+      "conceptTags": [
+        "syncopation"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-027",
+      "name": "前八分休止+八分",
+      "category": "rest",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": true,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 4,
+      "conceptTags": [
+        "rest"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-028",
+      "name": "八分+八分休止",
+      "category": "rest",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.5,
+          "rest": true,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 4,
+      "conceptTags": [
+        "rest"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-029",
+      "name": "四分音符后两八分休止",
+      "category": "rest",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 0.5,
+          "rest": true,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 0.5,
+          "rest": true,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 5,
+      "conceptTags": [
+        "rest"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-030",
+      "name": "休止+切分短句",
+      "category": "syncopation",
+      "meter": "4/4",
+      "spanBeats": 4,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": true,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 3,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 6,
+      "conceptTags": [
+        "syncopation"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-031",
+      "name": "二拍三连音",
+      "category": "tuplet",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.6666666666666666,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.666667,
+          "durationBeats": 0.6666666666666666,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.333333,
+          "durationBeats": 0.6666666666666666,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 7,
+      "conceptTags": [
+        "triplet"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-032",
+      "name": "一拍三连音+四分",
+      "category": "tuplet",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.3333333333333333,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.333333,
+          "durationBeats": 0.3333333333333333,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.666667,
+          "durationBeats": 0.3333333333333333,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 7,
+      "conceptTags": [
+        "triplet"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-033",
+      "name": "两拍内六连音",
+      "category": "tuplet",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.3333333333333333,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.333333,
+          "durationBeats": 0.3333333333333333,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.666667,
+          "durationBeats": 0.3333333333333333,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 0.3333333333333333,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.333333,
+          "durationBeats": 0.3333333333333333,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.666667,
+          "durationBeats": 0.3333333333333333,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 9,
+      "conceptTags": [
+        "tuplets"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-034",
+      "name": "两拍五连音",
+      "category": "tuplet",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.4,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.4,
+          "durationBeats": 0.4,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.8,
+          "durationBeats": 0.4,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.2,
+          "durationBeats": 0.4,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.6,
+          "durationBeats": 0.4,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 11,
+      "conceptTags": [
+        "complex-subdivision"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-035",
+      "name": "复拍子六个八分",
+      "category": "compound",
+      "meter": "6/8",
+      "spanBeats": 3,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 5,
+      "conceptTags": [
+        "meter-6-8"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-036",
+      "name": "复拍子两组附点四分",
+      "category": "compound",
+      "meter": "6/8",
+      "spanBeats": 3,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 5,
+      "conceptTags": [
+        "meter-6-8"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-037",
+      "name": "六八拍一组分解一组持续",
+      "category": "compound",
+      "meter": "6/8",
+      "spanBeats": 3,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 5,
+      "conceptTags": [
+        "compound"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-038",
+      "name": "六八拍附点重心变化",
+      "category": "compound",
+      "meter": "6/8",
+      "spanBeats": 3,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 6,
+      "conceptTags": [
+        "compound"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-039",
+      "name": "九八拍三大拍",
+      "category": "compound",
+      "meter": "9/8",
+      "spanBeats": 4.5,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 3,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 8,
+      "conceptTags": [
+        "compound"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-040",
+      "name": "十二八拍四大拍",
+      "category": "compound",
+      "meter": "12/8",
+      "spanBeats": 6,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 3,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 4.5,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 8,
+      "conceptTags": [
+        "compound"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-041",
+      "name": "附点+延长与休止",
+      "category": "rest",
+      "meter": "4/4",
+      "spanBeats": 4,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 0.5,
+          "rest": true,
+          "accent": false
+        },
+        {
+          "atBeat": 2,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 3,
+          "durationBeats": 1,
+          "rest": true,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 6,
+      "conceptTags": [
+        "rest-combinations"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-042",
+      "name": "四拍休止错位",
+      "category": "rest",
+      "meter": "4/4",
+      "spanBeats": 4,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": true,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2,
+          "durationBeats": 0.5,
+          "rest": true,
+          "accent": false
+        },
+        {
+          "atBeat": 2.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 3,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 6,
+      "conceptTags": [
+        "rest-combinations"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-043",
+      "name": "五八拍二加三",
+      "category": "odd-meter",
+      "meter": "5/8",
+      "spanBeats": 2.5,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 9,
+      "conceptTags": [
+        "odd-meter-experience"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-044",
+      "name": "五八拍三加二",
+      "category": "odd-meter",
+      "meter": "5/8",
+      "spanBeats": 2.5,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 9,
+      "conceptTags": [
+        "odd-meter-experience"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-045",
+      "name": "七八拍二二三",
+      "category": "odd-meter",
+      "meter": "7/8",
+      "spanBeats": 3.5,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 9,
+      "conceptTags": [
+        "odd-meter"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-046",
+      "name": "七八拍三二二",
+      "category": "odd-meter",
+      "meter": "7/8",
+      "spanBeats": 3.5,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2.5,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 10,
+      "conceptTags": [
+        "odd-meter"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-047",
+      "name": "Pop 3+3+2",
+      "category": "syncopation",
+      "meter": "4/4",
+      "spanBeats": 4,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 3,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 8,
+      "conceptTags": [
+        "tresillo"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/chapter/rhythm-and-meter-in-pop-music/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-048",
+      "name": "Pop 2+3+3",
+      "category": "syncopation",
+      "meter": "4/4",
+      "spanBeats": 4,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2.5,
+          "durationBeats": 1.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 8,
+      "conceptTags": [
+        "tresillo"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/chapter/rhythm-and-meter-in-pop-music/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-049",
+      "name": "四拍反拍",
+      "category": "offbeat",
+      "meter": "4/4",
+      "spanBeats": 4,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": true,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 0.5,
+          "rest": true,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2,
+          "durationBeats": 0.5,
+          "rest": true,
+          "accent": false
+        },
+        {
+          "atBeat": 2.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 3,
+          "durationBeats": 0.5,
+          "rest": true,
+          "accent": false
+        },
+        {
+          "atBeat": 3.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 8,
+      "conceptTags": [
+        "offbeat"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-050",
+      "name": "Swing八分(演奏比约2:1)",
+      "category": "performance-feel",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.5,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 8,
+      "conceptTags": [
+        "swing",
+        "performance_notation_distinction"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-051",
+      "name": "弱起八分动机",
+      "category": "pickup",
+      "meter": "2/4",
+      "spanBeats": 0.5,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.5,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 7,
+      "conceptTags": [
+        "pickup"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-052",
+      "name": "3/4华尔兹重音",
+      "category": "meter",
+      "meter": "3/4",
+      "spanBeats": 3,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 4,
+      "conceptTags": [
+        "meter-3"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-053",
+      "name": "四分三拍强弱弱",
+      "category": "meter",
+      "meter": "3/4",
+      "spanBeats": 3,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 2,
+      "conceptTags": [
+        "accent"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-054",
+      "name": "四分四拍强弱次强弱",
+      "category": "meter",
+      "meter": "4/4",
+      "spanBeats": 4,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 3,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 4,
+      "conceptTags": [
+        "meter-4"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-055",
+      "name": "拍内复节奏3对2的三方",
+      "category": "polyrhythm",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 0.6666666666666666,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 0.666667,
+          "durationBeats": 0.6666666666666666,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1.333333,
+          "durationBeats": 0.6666666666666666,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 9,
+      "conceptTags": [
+        "polyrhythm"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-056",
+      "name": "拍内复节奏3对2的二方",
+      "category": "polyrhythm",
+      "meter": "2/4",
+      "spanBeats": 2,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 9,
+      "conceptTags": [
+        "polyrhythm"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    },
+    {
+      "id": "RHY-CELL-057",
+      "name": "渐强重音型(演奏层)",
+      "category": "accent",
+      "meter": "4/4",
+      "spanBeats": 4,
+      "events": [
+        {
+          "atBeat": 0,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 1,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 2,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        },
+        {
+          "atBeat": 3,
+          "durationBeats": 1,
+          "rest": false,
+          "accent": false
+        }
+      ],
+      "suggestedIntroductionGrade": 7,
+      "conceptTags": [
+        "accent"
+      ],
+      "origin": "author_defined_pedagogical_example",
+      "sourceReferences": [
+        "https://viva.pressbooks.pub/openmusictheory/part/rhythm-and-meter/"
+      ],
+      "textbookPlacementStatus": "not_verified",
+      "teacherNotes": "先听—模仿—说唱—身体演奏—识谱；年级仅是产品排序建议"
+    }
+  ],
+  "overview": {
+    "itemCount": 57,
+    "existingStage1PatternsLinked": 8,
+    "coverage": "broad product teaching vocabulary; NOT exhaustive for any publisher or all songs",
+    "definition": "Negative durations in the construction helper signify rests; stored events always have positive durationBeats and rest boolean.",
+    "metadataQuality": "grade proposals unverified against textbook placement; do not cite as official grade required"
+  }
+}
