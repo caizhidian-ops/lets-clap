@@ -1,0 +1,77 @@
+import {createRequire} from 'node:module';
+import {mkdirSync} from 'node:fs';
+import assert from 'node:assert/strict';
+const require=createRequire(import.meta.url),{chromium}=require(process.env.PLAYWRIGHT_MODULE||'playwright');
+const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH,args:['--autoplay-policy=no-user-gesture-required']});
+mkdirSync('test-results',{recursive:true});
+try{
+ for(const [name,viewport,motion] of [['欢快',{width:1280,height:900},'no-preference'],['安静',{width:390,height:844},'no-preference'],['搞怪',{width:1280,height:900},'reduce']]){
+  const context=await browser.newContext({viewport,reducedMotion:motion}),page=await context.newPage(),errors=[];
+  await context.addInitScript(()=>{window.__micRequests=0;window.__cueEvents=[];window.__firstHit=null;
+   const play=HTMLMediaElement.prototype.play;
+   HTMLMediaElement.prototype.play=function(){window.__cueEvents.push({event:'play',src:this.src,time:performance.now()});this.addEventListener('ended',()=>window.__cueEvents.push({event:'ended',src:this.src,time:performance.now()}),{once:true});return play.call(this);};
+   new MutationObserver(()=>{if(window.__firstHit===null&&Number(document.querySelector('.hatch-art')?.dataset.hits)>0)window.__firstHit=performance.now();}).observe(document,{attributes:true,subtree:true,attributeFilter:['data-hits']});navigator.mediaDevices.getUserMedia=()=>{window.__micRequests++;throw Error('Hatch must not record');};});
+  page.on('pageerror',e=>errors.push(e.message));
+  await page.goto(process.env.BASE_URL||'http://127.0.0.1:5173');
+  await page.locator('.alternatives').evaluate(n=>n.open=true);
+  const start=Date.now();await page.getByRole('button',{name:new RegExp(name)}).click();
+  await page.waitForFunction(()=>Number(document.querySelector('.hatch-art')?.dataset.hits)>=1);
+  await page.waitForFunction(()=>document.querySelector('.hatch-art')?.dataset.crack==='3');
+  assert.equal(await page.locator('.c1').evaluate(n=>parseFloat(getComputedStyle(n).strokeDashoffset)),0);
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await page.screenshot({path:`test-results/hatch-${name}-cracks.png`});
+  await page.locator('.reveal').waitFor();
+  await page.waitForTimeout(600);
+  assert.equal(await page.locator('.hatch-pet').evaluate(n=>getComputedStyle(n).opacity),'1');
+  await page.screenshot({path:`test-results/hatch-${name}-reveal.png`});
+  await page.getByRole('textbox',{name:'宠物名字'}).waitFor();
+  const elapsed=Date.now()-start;
+  const timing=await page.evaluate(()=>({now:performance.now(),firstHit:window.__firstHit,ended:window.__cueEvents.find(e=>e.event==='ended'&&e.src.includes('prompt-guide.wav'))?.time}));
+  assert.ok(timing.ended<timing.firstHit,'Explanation finishes before the first rhythm sound');
+  assert.ok(timing.now-timing.firstHit>=5600&&timing.now-timing.firstHit<7000,'Three 2/4 bars followed by the shell reveal');
+  if(motion==='reduce')assert.equal(await page.locator('.spinning').count(),0);
+  else{
+    await page.locator('.spinning').waitFor();
+    assert.equal(await page.locator('.pet-turn').evaluate(n=>getComputedStyle(n).animationIterationCount),'1');
+    await page.waitForTimeout(700);
+    assert.notEqual(await page.locator('.pet-turn').evaluate(n=>getComputedStyle(n).backgroundPositionX),'0%');
+    await page.screenshot({path:`test-results/pet-${name}-turn.png`});
+    await page.waitForFunction(()=>!document.querySelector('.spinning'));
+  }
+  assert.equal(await page.locator('.dancing').count(),0);
+  assert.equal(await page.evaluate(()=>window.__micRequests),0);assert.deepEqual(errors,[]);
+  const animal={'欢快':'penguin','安静':'whale','搞怪':'dachshund'}[name];
+  assert.ok(await page.locator('.plush-pet').evaluate((n,animal)=>n.complete&&n.naturalWidth===768&&n.src.endsWith(animal+'.png'),animal));
+  await page.getByRole('textbox',{name:'宠物名字'}).fill('波波');
+  await page.getByRole('button',{name:'确认名字'}).click();
+  await page.locator('.alternatives').evaluate(n=>n.open=true);
+  await page.getByRole('button',{name:'开始探险 ↗'}).waitFor();
+  assert.equal(await page.locator('.dancing').count(),0);
+  const petBox=await page.locator('.plush-pet').boundingBox(),stageBox=await page.locator('.pet-stage').boundingBox();
+  assert.ok(petBox.y>=stageBox.y-1&&petBox.y+petBox.height<=stageBox.y+stageBox.height+1,'Pet fits its stage');
+  await page.screenshot({path:`test-results/plush-${animal}-home.png`});
+  await page.evaluate(()=>new Promise((resolve,reject)=>{const r=indexedDB.open('bobo-local',1);r.onsuccess=()=>{const db=r.result,t=db.transaction('works','readwrite');t.objectStore('works').put({testFixture:'preserve-on-rehatch'},'accepted');t.oncomplete=()=>{db.close();resolve();};t.onerror=reject;};}));
+  await page.locator('.developer').evaluate(n=>n.open=true);
+  await page.getByRole('button',{name:'返回孵化'}).click();
+  await page.getByRole('heading',{name:'一位音乐伙伴， 正在等你。'}).waitFor();
+  await page.locator('.alternatives').evaluate(n=>n.open=true);
+  await page.getByRole('button',{name:new RegExp(name)}).waitFor();
+  assert.equal(await page.evaluate(()=>localStorage.getItem('bobo.pet')),null);
+  assert.equal(await page.evaluate(()=>new Promise(resolve=>{const r=indexedDB.open('bobo-local',1);r.onsuccess=()=>{const db=r.result,q=db.transaction('works').objectStore('works').get('accepted');q.onsuccess=()=>{resolve(q.result?.testFixture);db.close();};};})),'preserve-on-rehatch');
+  await page.getByRole('button',{name:new RegExp(name)}).click();
+  await page.waitForFunction(()=>Number(document.querySelector('.hatch-art')?.dataset.hits)>=1);
+  await page.locator('.developer').evaluate(n=>n.open=true);
+  await page.getByRole('button',{name:'返回孵化'}).click();
+  await page.getByRole('heading',{name:'一位音乐伙伴， 正在等你。'}).waitFor();
+  await page.locator('.alternatives').evaluate(n=>n.open=true);
+  await page.getByRole('button',{name:new RegExp(name)}).waitFor();
+  await page.waitForTimeout(1300);
+  assert.equal(await page.locator('.hatch-art').getAttribute('data-crack'),'0');
+  assert.equal(await page.getByRole('textbox',{name:'宠物名字'}).count(),0);
+  await page.reload();await page.getByRole('heading',{name:'一位音乐伙伴， 正在等你。'}).waitFor();await page.locator('.alternatives').evaluate(n=>n.open=true);
+  await page.getByRole('button',{name:new RegExp(name)}).waitFor();
+  assert.deepEqual(errors,[]);
+  console.log(`PASS ${name}: ${elapsed}ms, growing cracks, visible pet reveal, no mic, no overflow/errors (${motion})`);
+  await context.close();
+ }
+}finally{await browser.close();}
