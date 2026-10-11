@@ -1,7 +1,7 @@
 import {RHYTHM} from './rhythm.js';
 import {ropeTiming} from './jump-rope-motion.js';
 // Rope contact follows the cue; scoring and animation use the same timing.
-export function createJumpRopeRun({bpm=RHYTHM.bpm,beats=RHYTHM.beats,runId,onsets,planId='jump-rope-quarter-v1'}={}){
+export function createJumpRopeRun({bpm=RHYTHM.bpm,beats=RHYTHM.beats,runId,onsets,planId='jump-rope-quarter-4bars-v2'}={}){
  if(!Number.isFinite(bpm)||bpm<40||bpm>180||!Number.isInteger(beats)||beats<4||beats>64)throw Error('Invalid jump-rope tempo');
  const period=60/bpm,expected=onsets??Array.from({length:beats},(_,i)=>i*period),duration=beats*period;
  if(!expected.length||expected.some((t,i)=>!Number.isFinite(t)||t<0||t>=duration||(i&&t<=expected[i-1])))throw Error('Invalid timeline');

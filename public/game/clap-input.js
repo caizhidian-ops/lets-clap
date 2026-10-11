@@ -1,7 +1,9 @@
 export async function createClapInput(context,{onClap,onMeter,onEnded,sensitivity=1}={}){
  if(!navigator.mediaDevices?.getUserMedia||!context.audioWorklet)throw Error('这个浏览器不支持本地拍手识别，请使用新版 Chrome 或 Safari。');
  let stream,source,node,sink,stopped=false,permissionTimer,expired=false;
- function stop(){if(stopped)return;stopped=true;if(node)node.port.onmessage=null;source?.disconnect();node?.disconnect();sink?.disconnect();stream?.getTracks().forEach(t=>t.stop());}
+ let recorder,recordingPromise,resolveRecording,chunks=[];
+ function finishRecording(){if(recorder?.state!=='inactive')recorder?.stop();return recordingPromise??Promise.resolve(null);}
+ function stop(){finishRecording();if(stopped)return;stopped=true;if(node)node.port.onmessage=null;source?.disconnect();node?.disconnect();sink?.disconnect();stream?.getTracks().forEach(t=>t.stop());}
  try{
   const permission=navigator.mediaDevices.getUserMedia({audio:{channelCount:1,echoCancellation:true,noiseSuppression:false,autoGainControl:false,latency:{ideal:.01}},video:false}).then(value=>{if(expired){value.getTracks().forEach(t=>t.stop());throw Error('授权已超时');}return value;});
   stream=await Promise.race([permission,new Promise((_,reject)=>{permissionTimer=setTimeout(()=>{expired=true;reject(Error('麦克风授权等待超时，请在浏览器允许麦克风后重试。'));},20000);})]);
@@ -13,6 +15,6 @@ export async function createClapInput(context,{onClap,onMeter,onEnded,sensitivit
   node.port.onmessage=({data})=>{if(stopped)return;if(data.type==='clap')onClap?.({...data,deliveryMs:Math.max(0,(context.currentTime-data.at)*1000)});else onMeter?.(data);};
   const track=stream.getAudioTracks()[0];track.onended=()=>{if(!stopped){stop();onEnded?.();}};
   node.onprocessorerror=()=>{if(!stopped){stop();onEnded?.();}};
-  return {stop,settings:track.getSettings()};
+  return {stop,settings:track.getSettings(),startRecording(){if(typeof MediaRecorder==='undefined')return false;chunks=[];recorder=new MediaRecorder(stream);recordingPromise=new Promise(resolve=>resolveRecording=resolve);recorder.ondataavailable=e=>{if(e.data.size)chunks.push(e.data);};recorder.onstop=()=>resolveRecording(new Blob(chunks,{type:recorder.mimeType}));recorder.onerror=()=>resolveRecording(null);recorder.start();return true;},finishRecording};
  }catch(error){clearTimeout(permissionTimer);stop();if(error.name==='NotAllowedError')throw Error('麦克风权限未打开，请允许后重试；也可以继续用按钮。');if(error.name==='NotFoundError')throw Error('没有找到麦克风，请连接后重试。');throw error;}
 }

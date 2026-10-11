@@ -1,6 +1,6 @@
 import {RHYTHM} from './rhythm.js';
 // Pure rules: callers supply timestamps relative to the start of the musical round.
-export function createEscapeRun({bpm=RHYTHM.bpm, beats=RHYTHM.beats, onsets, runId, planId='intro-quarter-v1', inputSource='tap_demo',movement='escape'}={}) {
+export function createEscapeRun({bpm=RHYTHM.bpm, beats=RHYTHM.beats, onsets, runId, planId='intro-quarter-4bars-v2', inputSource='tap_demo',movement='escape'}={}) {
  if(!Number.isFinite(bpm)||bpm<30||bpm>240)throw Error('Invalid BPM');
  if(!Number.isInteger(beats)||beats<4||beats>64)throw Error('Invalid beat count');
  const duration=beats*60/bpm;

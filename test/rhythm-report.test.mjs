@@ -4,7 +4,7 @@ import {analyzeRhythm,learningProgress,reportInput} from '../public/rhythm-repor
 import {createReportController} from '../public/report-controller.js';
 import {createJumpRopeRun} from '../public/game/jump-rope-engine.js';
 import {rhythmReport,server} from '../server.mjs';
-function round(id='run',offset=0){const run=createJumpRopeRun({runId:id});run.expected.forEach(t=>run.ingest(t+offset));return {...run.finish(30),id,date:1000,mood:'开心'};}
+function round(id='run',offset=0){const run=createJumpRopeRun({runId:id,beats:48,planId:'jump-rope-quarter-v1'});run.expected.forEach(t=>run.ingest(t+offset));return {...run.finish(30),id,date:1000,mood:'开心'};}
 test('report uses actual target timing and distinguishes early, late and no input',()=>{
  const good=analyzeRhythm(reportInput(round()));assert.equal(good.metrics.matched,48);assert.equal(good.metrics.meanAbsOffsetMs,0);assert.equal(good.qualified,true);
  const early=round('early',-.1);assert.match(analyzeRhythm(reportInput(early)).nextStep,/先到了/);
@@ -64,3 +64,5 @@ test('report HTTP uses local rules without credentials and returns a recoverable
   globalThis.fetch=async()=>({ok:true,json:async()=>({choices:[{message:{content:JSON.stringify({strength:'继续加油',nextStep:'跟着小鼓',exercise:'先听四拍'})}}]})});assert.equal((await rhythmReport(reportInput(round()))).source,'qwen');
  }finally{globalThis.fetch=original;if(server.listening)await new Promise(resolve=>server.close(resolve));if(a)process.env.QWEN_API_KEY=a;else delete process.env.QWEN_API_KEY;if(b)process.env.DASHSCOPE_API_KEY=b;else delete process.env.DASHSCOPE_API_KEY;}
 });
+
+test('four-bar drill reports only actual sixteen beats, not the thirty-second repeated playback',()=>{const run=createJumpRopeRun();run.expected.forEach(t=>run.ingest(t));const track={...run.finish(10),sourceDurationSec:10,durationSec:30,sourceBpm:96};const r=analyzeRhythm(reportInput(track));assert.equal(r.metrics.expected,16);assert.equal(r.metrics.matched,16);assert.equal(r.qualified,true);assert.equal(reportInput(track).durationSec,10);});

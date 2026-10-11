@@ -1,0 +1,2 @@
+function db(){return new Promise((resolve,reject)=>{const r=indexedDB.open('lets-clap-recordings',1);r.onupgradeneeded=()=>r.result.createObjectStore('audio');r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});}
+export async function recording(id,value){const d=await db();return new Promise((resolve,reject)=>{const t=d.transaction('audio',value===undefined?'readonly':'readwrite'),s=t.objectStore('audio'),r=value===undefined?s.get(id):s.put(value,id);t.oncomplete=()=>{d.close();resolve(r.result);};t.onerror=()=>{d.close();reject(t.error);};});}

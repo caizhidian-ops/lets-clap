@@ -42,14 +42,14 @@ export const server=http.createServer(async(req,res)=>{
 
  for(const name of ['escape-world.js','night-music.js','vendor/three.module.js','vendor/three.core.js','vendor/GLTFLoader.js','vendor/BufferGeometryUtils.js'])files['/game/'+name]='game/'+name;
  for(const name of ['monster.glb','windmill.glb'])files['/assets/rescue/'+name]='assets/rescue/'+name;
- for(const name of ['rhythm.js','interior-world.js','interior-session.js','jump-rope-engine.js','jump-rope-motion.js'])files['/game/'+name]='game/'+name;
+ for(const name of ['rhythm.js','rhythm-cues.js','interior-world.js','interior-session.js','jump-rope-engine.js','jump-rope-motion.js'])files['/game/'+name]='game/'+name;
  for(const name of ['clap-detector.js','clap-worklet.js','clap-input.js','clap-lab.js'])files['/game/'+name]='game/'+name;
  files['/clap-test.html']='clap-test.html';
  files['/game/song-mixer.js']='game/song-mixer.js';
  files['/assets/audio/da-feng-che-96bpm.wav']='assets/audio/da-feng-che-96bpm.wav';
  files['/flow-medals.js']='flow-medals.js';
  files['/practice.html']='practice.html';
- for(const name of ['rhythm-report.js','report-controller.js','report-view.js'])files['/'+name]=name;
+ for(const name of ['rhythm-report.js','report-controller.js','report-view.js','recording-store.js'])files['/'+name]=name;
  files['/plush-fur.js']='plush-fur.js';
  for(const version of ['plush-v1','plush-v2'])for(const name of ['dongdong','youyou','bengbeng','windmill','whale','penguin','dachshund'])files['/assets/'+version+'/'+name+'.glb']='assets/'+version+'/'+name+'.glb';
  files['/night-rescue.html']='night-rescue.html';files['/game/night-entry.js']='game/night-entry.js';

@@ -15,7 +15,7 @@ import {dialogueTools,listeningStates,localCommands,validateMood} from './dialog
 const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
 const kb=JSON.parse(await readFile(resolve(root,'data/notation-patterns.v1.json')));
 const score=JSON.parse(await readFile(resolve(root,'data/verified-score.json')));
-const bpm=Number(process.env.DEMO_BPM||72);
+const bpm=96; // Match the supplied backing track for every new game.
 if(!Number.isFinite(bpm)||bpm<40||bpm>180)throw Error('DEMO_BPM 必须在 40–180');
 const ai=qwenConfig(),sessions=new Map();
 const aiConnection=await checkConnection(ai);
@@ -60,7 +60,7 @@ async function action(s,p){
   if(a==='slow_preview')s.plan.previewTempoFactor=Math.max(.55,(s.plan.previewTempoFactor||1)*.85);
   if(['select_mood','reduce_difficulty','increase_difficulty'].includes(a)){
     const mood=a==='select_mood'?payload.mood:s.plan.mood;
-    const difficulty=a==='select_mood'?2:Math.max(1,Math.min(3,s.plan.difficulty+(a==='reduce_difficulty'?-1:1)));
+    const difficulty=a==='select_mood'?1:Math.max(1,Math.min(3,s.plan.difficulty+(a==='reduce_difficulty'?-1:1)));
     s.analysis=null;s.feedback=null;broadcast(s);
     s.plan=await arrange(kb,{mood,difficulty,bpm},qwenRequest,ai.enabled);
     s.game.act(s.plan.source==='ai_validated'?'plan_validated':'plan_fallback');
@@ -113,7 +113,7 @@ const server=http.createServer(async(req,res)=>{
     const allowed=path.startsWith(resolve(root,'public')+'/')||path.startsWith(resolve(root,'src')+'/');
     if(!allowed)return send(res,403,{error:'不可读取'});
     const data=await readFile(path),mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.svg':'image/svg+xml','.wav':'audio/wav','.png':'image/png','.webp':'image/webp'}[extname(path)]||'application/octet-stream';
-    res.writeHead(200,{'Content-Type':mime,'X-Content-Type-Options':'nosniff','Cache-Control':'no-cache','Content-Security-Policy':"default-src 'self'; connect-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' blob:; worker-src 'self'"});res.end(data);
+    res.writeHead(200,{'Content-Type':mime,'X-Content-Type-Options':'nosniff','Cache-Control':'no-cache','Content-Security-Policy':"default-src 'self'; connect-src 'self' blob:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; worker-src 'self'"});res.end(data);
   }catch(e){send(res,e.code==='ENOENT'?404:400,{error:e.code==='ENOENT'?'文件不存在':e.message});}
 });
 const wss=new WebSocketServer({noServer:true,maxPayload:65536});
@@ -198,7 +198,7 @@ wss.on('connection',ws=>{
       const speech=candidate?await approvedSpeech(line,t.abort.signal):'';
       if(turn?.id!==t.id||s.game.sceneVersion!==version)return;
       reply({type:'voice_result',turnId:t.id,sceneVersion:version,text:line,audio:speech,transcript:r.transcript});turn=null;
-    }catch(e){if(requestSignal?.aborted)return;reply({type:'error',message:e.message});ws.cancelTurn();}
+    }catch(e){if(requestSignal?.aborted)return;reply({type:'error',turnId:turn?.id,message:e.message});ws.cancelTurn();}
   });
 });
 const host=process.env.HOST||'127.0.0.1';

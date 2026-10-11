@@ -16,10 +16,10 @@ test('真实知识库 57 个单元，曲谱 4/4 前两小节覆盖八拍',()=>{
   assert.equal(score.measures.length,12);
   for(const m of score.measures.slice(0,2))assert.equal(m.notes.reduce((n,e)=>n+e.duration,0),4);
 });
-for(const mood of ['happy','calm','excited'])for(const difficulty of [1,2,3])test(mood+' difficulty '+difficulty+' uses real two-beat cells and eight beats',()=>{
+for(const mood of ['happy','calm','excited'])for(const difficulty of [1,2,3])test(mood+' difficulty '+difficulty+' uses real two-beat cells and sixteen beats',()=>{
   const p=rulePlan(kb,{mood,difficulty,bpm:72});
-  assert.equal(p.cellPatternIds.length,4);assert.equal(p.events.reduce((n,e)=>n+e.durationBeats,0),8);
-  assert.equal(p.durationSec,8*60/72);assert.equal(p.source,'rule_fallback');
+  assert.equal(p.cellPatternIds.length,8);assert.equal(p.events.reduce((n,e)=>n+e.durationBeats,0),16);
+  assert.equal(p.durationSec,16*60/72);assert.equal(p.source,'rule_fallback');
   assert.ok(p.cellPatternIds.every(x=>allowedIds(mood,difficulty).includes(x)));
   assert.ok(new Set(p.cellPatternIds).size>1||difficulty===1);
 });
@@ -34,7 +34,7 @@ test('拒绝模型发明 ID、跨难度 ID、错误速度和数量',()=>{
 });
 test('休止不生成拍手；新计划拥有不同 ID',()=>{
   const p=rulePlan(kb,{mood:'calm',difficulty:2,bpm:72});
-  assert.equal(p.expectedOnsetsSec.length,5);assert.ok(!p.expectedOnsetsSec.includes(0));
+  assert.equal(p.expectedOnsetsSec.length,10);assert.ok(!p.expectedOnsetsSec.includes(0));
   assert.notEqual(p.planId,rulePlan(kb,{mood:'calm',difficulty:2,bpm:72}).planId);
 });
 test('单元重叠、空隙、负时值、非布尔休止和三拍都拒绝',()=>{
@@ -47,7 +47,7 @@ test('AI 编排最多修正一次，失败明确规则后备',async()=>{
   assert.equal(calls,2);assert.equal(p.source,'rule_fallback');
 });
 test('合法 AI 工具结果经校验；模型不能覆盖情绪、难度和 BPM',async()=>{
-  const p=await arrange(kb,{mood:'happy',difficulty:2,bpm:72},async()=>({calls:[{name:'suggest_rhythm_arrangement',arguments:JSON.stringify({cellPatternIds:[id(1),id(4),id(1),id(3)],bpm:300,mood:'calm',difficulty:3})}]}),true);
+  const p=await arrange(kb,{mood:'happy',difficulty:2,bpm:72},async()=>({calls:[{name:'suggest_rhythm_arrangement',arguments:JSON.stringify({cellPatternIds:[id(1),id(4),id(1),id(3),id(1),id(4),id(1),id(3)],bpm:300,mood:'calm',difficulty:3})}]}),true);
   assert.equal(p.source,'ai_validated');assert.equal(p.bpm,72);assert.equal(p.mood,'happy');assert.equal(p.difficulty,2);
 });
 test('FSM 首次孵化、已孵化首页、状态守卫、幂等和旧轮次拒绝',()=>{

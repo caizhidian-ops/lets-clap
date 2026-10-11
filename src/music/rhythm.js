@@ -16,18 +16,18 @@ export function validateCell(cell) {
   return cell;
 }
 export function compilePlan(kb, {mood, difficulty, bpm, cellPatternIds, source='rule_fallback', planId=crypto.randomUUID()}) {
-  if (!Number.isFinite(bpm) || bpm<40 || bpm>180 || cellPatternIds?.length !== 4) throw Error('计划必须为四单元、合法速度');
+  if (!Number.isFinite(bpm) || bpm<40 || bpm>180 || ![4,8].includes(cellPatternIds?.length)) throw Error('计划必须为八单元（历史方案可为四单元）、合法速度');
   const allowed = allowedIds(mood,difficulty);
   if(difficulty>1&&new Set(cellPatternIds).size<2)throw Error('当前难度至少需要两种单元');
   const events = cellPatternIds.flatMap((key,i)=>{
     if (!allowed.includes(key)) throw Error('不允许的节奏单元');
     return validateCell(kb.items.find(c=>c.id===key)).events.map(e=>({...e,atBeat:e.atBeat+i*2,cellId:key}));
   });
-  return {planId,songId:'pep22_g1b_dafengche',scoreRange:{startMeasure:1,endMeasure:2},meter:'4/4',bpm,mood,difficulty,previewTempoFactor:1,cellPatternIds,source,events,
-    expectedOnsetsSec:events.filter(e=>!e.rest).map(e=>e.atBeat*60/bpm),durationSec:8*60/bpm};
+  return {planId,knowledgeBase:{version:'notation-patterns.v1',schemaVersion:kb.schemaVersion,cellPatternIds:[...cellPatternIds]},songId:'pep22_g1b_dafengche',scoreRange:{startMeasure:1,endMeasure:cellPatternIds.length/2},meter:'4/4',bpm,mood,difficulty,previewTempoFactor:1,cellPatternIds,source,events,
+    expectedOnsetsSec:events.filter(e=>!e.rest).map(e=>e.atBeat*60/bpm),durationSec:cellPatternIds.length*2*60/bpm};
 }
 export function rulePlan(kb, options) {
   const {mood,difficulty}=options;
   const choices=mood==='calm'?[9,1,9,9]:difficulty===1?(mood==='excited'?[1,1,1,1]:[1,1,1,9]):difficulty===2?(mood==='excited'?[3,4,3,4]:[1,4,1,3]):mood==='excited'?[2,3,2,4]:[1,4,3,2];
-  return compilePlan(kb,{...options,cellPatternIds:choices.map(id),source:'rule_fallback'});
+  return compilePlan(kb,{...options,cellPatternIds:[...choices,...choices].map(id),source:'rule_fallback'});
 }

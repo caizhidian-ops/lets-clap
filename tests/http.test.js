@@ -6,6 +6,7 @@ test('本地服务状态、服务端守卫、私密文件和跨站请求',async 
   const r=await fetch(base+'/api/state'),cookie=r.headers.get('set-cookie').split(';')[0],state=await r.json();
   assert.equal(state.state,'HATCH_SELECT');
   const config=await fetch(base+'/api/config',{headers:{cookie}}).then(r=>r.json());
+  const page=await fetch(base+'/');assert.match(page.headers.get('content-security-policy'),/img-src[^;]*blob:/);assert.match(page.headers.get('content-security-policy'),/connect-src[^;]*blob:/);
   assert.equal(config.kb.items.length,57);assert.ok(!JSON.stringify(config).includes('DASHSCOPE_API_KEY'));
   assert.equal((await fetch(base+'/.env')).status,404);
   assert.equal((await fetch(base+'/server/index.js')).status,404);

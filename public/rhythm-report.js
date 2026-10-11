@@ -29,7 +29,7 @@ export function analyzeRhythm(data){
  const metrics={matched,expected:expectedTimes.length,missed,extra,early,late,bestCombo,accuracy:matched/expectedTimes.length,precision:times.length?matched/times.length:0,meanAbsOffsetMs};
  const consistent=data.matchedCount===undefined||data.matchedCount===matched;
  const reliable=consistent&&data.analysisStatus==='reliable'&&['tap_demo','microphone_clap','mixed_mic_tap'].includes(data.inputSource);
- const quarter=expectedTimes.length===48&&Math.abs(bpm-96)<.001&&Math.abs(durationSec-30)<.001&&expectedTimes.every((t,i)=>Math.abs(t-i*period)<=1)&&['jump-rope-quarter-v1','intro-quarter-v1'].includes(data.planId);
+ const quarter=Math.abs(bpm-96)<.001&&expectedTimes.every((t,i)=>Math.abs(t-i*period)<=1)&&((expectedTimes.length===48&&Math.abs(durationSec-30)<.001&&['jump-rope-quarter-v1','intro-quarter-v1'].includes(data.planId))||(expectedTimes.length===16&&Math.abs(durationSec-10)<.001&&['jump-rope-quarter-4bars-v2','intro-quarter-4bars-v2'].includes(data.planId)));
  const qualified=reliable&&quarter&&data.inputSource!=='mixed_mic_tap'&&metrics.accuracy>=MASTERY.accuracy&&metrics.precision>=MASTERY.precision&&meanAbsOffset!==null&&meanAbsOffset<=period*MASTERY.meanOffsetRatio;
  let strength=matched?`你有 ${matched} 拍跟上了小鼓${bestCombo>=4?`，最长连续跟上 ${bestCombo} 拍`:''}！`:'你完成了一次尝试，愿意开始就很棒！';
  let nextStep,exercise;

@@ -10,7 +10,7 @@ const kb=JSON.parse(await readFile(new URL('../data/notation-patterns.v1.json',i
 test('Mio sparse and eighth-note plans drive the same game and report targets',()=>{
  for(const mood of ['happy','calm'])for(const difficulty of [1,2,3])for(const bpm of [40,72,96,180]){
   const plan=rulePlan(kb,{mood,difficulty,bpm});
-  const run=createJumpRopeRun({bpm,beats:8,onsets:plan.expectedOnsetsSec,planId:plan.planId,runId:'test'});
+  const run=createJumpRopeRun({bpm,beats:16,onsets:plan.expectedOnsetsSec,planId:plan.planId,runId:'test'});
   for(const t of plan.expectedOnsetsSec)assert.equal(run.ingest(t).accepted,true,`${mood} ${difficulty} ${bpm} ${t}`);
   const result=run.finish(plan.durationSec);
   assert.equal(result.matchedCount,plan.expectedOnsetsSec.length);assert.equal(result.planId,plan.planId);

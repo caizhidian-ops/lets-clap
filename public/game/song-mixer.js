@@ -1,5 +1,6 @@
+import {recording} from '../recording-store.js';
 import {RHYTHM} from './rhythm.js';
-export const SONG = {...RHYTHM,id:'da-feng-che',url:'/assets/audio/da-feng-che-96bpm.wav'};
+export const SONG = {...RHYTHM,bars:12,beats:48,duration:30,id:'da-feng-che',url:'/assets/audio/da-feng-che-96bpm.wav'};
 
 // Repeat the child's played pattern, aligned to eighth notes at the song tempo.
 export function songBeats(track){
@@ -50,11 +51,28 @@ async function backing(){
  return backingPromise;
 }
 export async function renderSong(track){
- const key=JSON.stringify([track.id,track.sourceBpm,track.patternBeats,track.expectedCount,track.times]);
+ const key=JSON.stringify([track.id,track.sourceBpm,track.patternBeats,track.expectedCount,track.times,track.recordingId,track.sourceDurationSec,track.durationSec,track.mixVersion,track.recordingRepeats]);
  if(!renders.has(key))renders.set(key,(async()=>{
   const buffer=await backing();
-  const channels=Array.from({length:buffer.numberOfChannels},(_,i)=>buffer.getChannelData(i));
-  return new Blob([encodeWav(mixSong(channels,buffer.sampleRate,track),buffer.sampleRate)],{type:'audio/wav'});
+  const tempo=track.mixVersion!==2&&track.mioPlan?(track.sourceBpm||SONG.bpm)/SONG.bpm:1;
+  const channels=Array.from({length:buffer.numberOfChannels},(_,c)=>{const source=buffer.getChannelData(c),length=Math.round((track.durationSec??SONG.duration)*buffer.sampleRate);return Float32Array.from({length},(_,i)=>{const at=i*tempo,k=Math.floor(at),f=at-k;return (source[k]||0)*(1-f)+(source[k+1]||0)*f;});});
+  const stored=track.recordingId?await recording(track.recordingId):null;
+  let recorded=null;if(stored?.blob){const ctx=new OfflineAudioContext(1,1,buffer.sampleRate);recorded=await ctx.decodeAudioData(await stored.blob.arrayBuffer());}
+  // Saved duration is authoritative: older collected works explicitly lasted 30s.
+  if(track.mixVersion===2&&(track.sourceBpm!==RHYTHM.bpm||track.sourceDurationSec!==RHYTHM.duration||track.durationSec!==SONG.duration||track.recordingRepeats!==3))throw Error('作品节奏信息不完整，请重新录制。');
+  const output=mixRecorded(channels,buffer.sampleRate,recorded?recorded.getChannelData(0):null,recorded?.sampleRate,stored?.offset||0,track.durationSec??track.sourceDurationSec??SONG.duration,track.mixVersion===2?track.sourceDurationSec:0);
+  return new Blob([encodeWav(output,buffer.sampleRate)],{type:'audio/wav'});
  })().catch(error=>{renders.delete(key);throw error;}));
  return renders.get(key);
+}
+
+export function mixRecorded(channels,rate,pcm,pcmRate,offset=0,duration=SONG.duration,loopDuration=0){
+ if(!Number.isFinite(duration)||duration<=0||duration>120)throw Error('Invalid recording duration');
+ if(!Number.isFinite(loopDuration)||loopDuration<0||loopDuration>duration)throw Error('Invalid loop duration');
+ if(!Number.isFinite(offset)||offset<0||!Number.isFinite(rate)||rate<=0||(pcm&&(!Number.isFinite(pcmRate)||pcmRate<=0)))throw Error('Invalid recording timing');
+ const loopLength=Math.round(loopDuration*rate);if(loopDuration>0&&!loopLength)throw Error('Invalid loop duration');
+ const length=Math.round(duration*rate),out=channels.map(c=>Float32Array.from({length},(_,i)=>(c[i]||0)*.7));
+ if(pcm)for(let i=0;i<Math.min(length,Math.round(duration*rate));i++){const at=Math.floor((offset+(loopLength?i%loopLength:i)/rate)*pcmRate);if(at<pcm.length)for(const c of out)c[i]+=(pcm[at]||0)*.85;}
+ let peak=0;for(const c of out)for(const n of c)peak=Math.max(peak,Math.abs(n));if(peak>.95)for(const c of out)for(let i=0;i<c.length;i++)c[i]*=.95/peak;
+ return out;
 }
