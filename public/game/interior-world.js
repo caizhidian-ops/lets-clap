@@ -1,0 +1,43 @@
+import * as T from './vendor/three.module.js';
+import {GLTFLoader} from './vendor/GLTFLoader.js';
+import {addFinePile} from '../plush-fur.js';
+const petURLs=['/assets/plush-v2/penguin.glb','/assets/plush-v1/dongdong.glb'];
+function disposeModel(model){model.traverse(o=>{o.geometry?.dispose();for(const m of o.material?(Array.isArray(o.material)?o.material:[o.material]):[]){for(const v of Object.values(m))if(v?.isTexture)v.dispose();m.dispose();}});}
+function setup(host,background){const world=new T.Scene();if(background)world.background=new T.Color(background);const renderer=new T.WebGLRenderer({antialias:true,alpha:!background});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.1;renderer.shadowMap.enabled=true;renderer.shadowMap.type=T.PCFSoftShadowMap;host.append(renderer.domElement);const camera=new T.PerspectiveCamera(43,1,.1,100);world.add(new T.HemisphereLight('#fff1da','#715c55',2));const light=new T.DirectionalLight('#ffe4b0',3);light.position.set(-4,8,5);light.castShadow=true;light.shadow.mapSize.set(1024,1024);world.add(light);const resize=()=>{const {width,height}=host.getBoundingClientRect();if(!width||!height)return;renderer.setSize(width,height);camera.aspect=width/height;camera.fov=43+Math.max(0,1-camera.aspect)*35;camera.updateProjectionMatrix();};const ro=new ResizeObserver(resize);ro.observe(host);resize();return {world,renderer,camera,dispose(){ro.disconnect();disposeModel(world);renderer.dispose();renderer.domElement.remove();}};}
+function loadAsset(urls,parent,size,host,isDisposed){const loader=new GLTFLoader();let i=0;const attempt=()=>loader.load(urls[i],g=>{if(isDisposed()){disposeModel(g.scene);return;}if(urls[i].includes('plush-v2'))addFinePile(g.scene);const model=g.scene,b=new T.Box3().setFromObject(model),s=b.getSize(new T.Vector3()),c=b.getCenter(new T.Vector3());model.position.sub(c);const wrapper=new T.Group();wrapper.add(model);wrapper.scale.setScalar(size/Math.max(s.x,s.y,s.z));wrapper.position.y=s.y*wrapper.scale.x/2;parent.add(wrapper);host.dataset.asset=urls[i];host.dispatchEvent(new CustomEvent('assetloaded'));},undefined,()=>{if(isDisposed())return;if(++i<urls.length)attempt();else{host.dataset.asset='unavailable';host.dispatchEvent(new CustomEvent('asseterror'));}});attempt();}
+export function mountWindmillPreview(host){const s=setup(host,null);let disposed=false,frame;const group=new T.Group();s.world.add(group);s.camera.position.set(4,3.2,6);s.camera.lookAt(0,1.6,0);loadAsset(['/assets/plush-v1/windmill.glb'],group,3.8,host,()=>disposed);function draw(){if(disposed)return;group.rotation.y=-Math.PI/2;s.renderer.render(s.world,s.camera);frame=requestAnimationFrame(draw);}draw();return {dispose(){disposed=true;cancelAnimationFrame(frame);s.dispose();}};}
+export function mountInteriorWorld(host){const s=setup(host,'#5d4b40');let disposed=false,frame,phase='dialogue',gameTime=0,lastUpdate=0,bpm=90,lastJump=-Infinity,accepted=true;
+ const mesh=(g,color,x,y,z,parent=s.world)=>{const m=new T.Mesh(g,new T.MeshStandardMaterial({color,roughness:.85}));m.position.set(x,y,z);m.castShadow=true;m.receiveShadow=true;parent.add(m);return m;};
+ const box=new T.BoxGeometry(1,1,1);
+ mesh(new T.CylinderGeometry(9,9,.3,64),'#ae7954',0,-.22,0);
+ // Open front lets the camera sit inside; curved rear wall defines the tower.
+ mesh(new T.CylinderGeometry(9,9,7,64,1,true,Math.PI/2,Math.PI),'#d3b58b',0,3.2,0).material.side=T.DoubleSide;
+ for(let i=0;i<21;i++){const angle=Math.PI/2+i*Math.PI/20;mesh(box,'#cba57e',Math.sin(angle)*8.8,3.2,Math.cos(angle)*8.8).scale.set(.12,6.8,.12);}
+ for(let i=-5;i<=5;i++){mesh(box,'#89633f',i*1.4,6.4,-3).scale.set(.17,.24,11);mesh(box,'#ba8b62',0,-.04,i*1.4).scale.set(16,.035,.04);}
+ const windowGroup=new T.Group();windowGroup.position.set(0,3.7,-8.3);s.world.add(windowGroup);
+ const window=mesh(new T.CircleGeometry(1.8,64),'#c2dbe0',0,0,0,windowGroup);window.material=new T.MeshBasicMaterial({color:'#c2dbe0'});
+ mesh(new T.TorusGeometry(1.85,.18,12,64),'#72513d',0,0,.04,windowGroup);
+ mesh(box,'#72513d',0,0,.12,windowGroup).scale.set(.1,3.6,.15);mesh(box,'#72513d',0,0,.12,windowGroup).scale.set(3.6,.1,.15);
+ const rotor=new T.Group();rotor.position.set(0,0,-.05);windowGroup.add(rotor);for(let i=0;i<4;i++){const blade=mesh(box,'#d9e9e3',0,0,0,rotor);blade.rotation.z=i*Math.PI/2;blade.position.set(Math.sin(i*Math.PI/2)*.8,Math.cos(i*Math.PI/2)*.8,0);blade.scale.set(.14,1.7,.04);}
+ const gear=new T.Group();gear.position.set(-4,3.4,-5.4);gear.rotation.x=Math.PI/2;s.world.add(gear);mesh(new T.TorusGeometry(1.2,.17,10,40),'#71513b',0,0,0,gear);for(let i=0;i<16;i++){const a=i*Math.PI/8;const tooth=mesh(box,'#71513b',Math.cos(a)*1.3,Math.sin(a)*1.3,0,gear);tooth.rotation.z=a;tooth.scale.set(.32,.2,.28);}
+ mesh(new T.CylinderGeometry(.18,.18,6,12),'#765941',-4,2.8,-5.4);
+ const table=mesh(new T.CylinderGeometry(1.3,1.3,.15,32),'#98714b',4,1.2,-3.5);for(const x of [3.3,4.7])mesh(box,'#846140',x,.5,-3.5).scale.set(.15,1.3,.15);
+ mesh(new T.CylinderGeometry(.55,.55,.9,24),'#d7a060',4,1.72,-3.5);mesh(new T.CylinderGeometry(.56,.56,.05,24),'#f2ddb9',4,2.2,-3.5);
+ const rug=mesh(new T.CylinderGeometry(3.5,3.5,.04,64),'#658676',0,-.03,1);rug.scale.z=.6;
+ const pet=new T.Group();pet.position.set(0,.05,.7);pet.rotation.y=-Math.PI/2;s.world.add(pet);host.dataset.asset='loading';loadAsset(petURLs,pet,3.8,host,()=>disposed);
+
+ // Actual closed sweep from hands over head and under feet, driven by audio time.
+ const segments=48,sides=6,vertices=new Float32Array((segments+1)*sides*3),indices=[];
+ for(let i=0;i<segments;i++)for(let j=0;j<sides;j++){const a=i*sides+j,b=i*sides+(j+1)%sides,c=a+sides,d=b+sides;indices.push(a,b,c,b,d,c);}
+ const ropeGeometry=new T.BufferGeometry();ropeGeometry.setAttribute('position',new T.BufferAttribute(vertices,3));ropeGeometry.setIndex(indices);
+ const rope=new T.Mesh(ropeGeometry,new T.MeshStandardMaterial({color:'#ed905d',roughness:.65,emissive:'#6f3815',emissiveIntensity:.2}));rope.frustumCulled=false;s.world.add(rope);
+ const handles=[];for(const x of [-2.1,2.1]){const h=mesh(new T.CylinderGeometry(.065,.065,.42,12),'#eedcb0',x,1.55,.7);h.rotation.z=Math.PI/2;handles.push(h);}
+ const center=u=>new T.Vector3(-2.1*Math.cos(u),1.55-1.7*Math.sin(u)*Math.cos(ropeAngle),.7+1.7*Math.sin(u)*Math.sin(ropeAngle));let ropeAngle=1.3;
+ function sweep(angle){ropeAngle=angle;for(let i=0;i<=segments;i++){const u=i/segments*Math.PI,p=center(u),tangent=new T.Vector3(2.1*Math.sin(u),-1.7*Math.cos(u)*Math.cos(angle),1.7*Math.cos(u)*Math.sin(angle)).normalize();const normal=new T.Vector3().crossVectors(tangent,Math.abs(tangent.y)<.9?new T.Vector3(0,1,0):new T.Vector3(0,0,1)).normalize(),side=new T.Vector3().crossVectors(tangent,normal).normalize();for(let j=0;j<sides;j++){const a=j/sides*Math.PI*2,v=p.clone().addScaledVector(normal,Math.cos(a)*.045).addScaledVector(side,Math.sin(a)*.045);const k=(i*sides+j)*3;vertices[k]=v.x;vertices[k+1]=v.y;vertices[k+2]=v.z;}}ropeGeometry.attributes.position.needsUpdate=true;ropeGeometry.computeVertexNormals();}
+ const beatLights=[];for(let i=0;i<8;i++){const x=-3.5+i;const ring=mesh(new T.TorusGeometry(.24,.055,8,32),'#dfbd85',x,.04,2.4);ring.rotation.x=-Math.PI/2;beatLights.push(ring);}
+ const lantern=new T.PointLight('#ffcb80',20,10);lantern.position.set(4,3,-2);s.world.add(lantern);
+ s.camera.position.set(0,3.4,9);s.camera.lookAt(0,.35,-1.5);
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ function animate(ms){if(disposed)return;const wall=ms/1000,elapsed=gameTime+(['running','counting'].includes(phase)?(ms-lastUpdate)/1000:0);const jump=(elapsed-lastJump)/.44;pet.position.x=0;pet.position.y=.05+(jump>=0&&jump<1?Math.sin(jump*Math.PI)*.95:0);pet.rotation.z=!reduced&&!accepted&&jump>=0&&jump<1?Math.sin(jump*Math.PI)*.12:0;if(!reduced){gear.rotation.z=wall*.14;rotor.rotation.z=wall*.12;}const angle=['running','counting'].includes(phase)?2*Math.PI*(elapsed-.18)/(60/bpm):1.3;sweep(reduced&&phase!=='running'?1.3:angle);host.dataset.ropePhase=angle.toFixed(2);host.dataset.jumpHeight=pet.position.y.toFixed(2);s.renderer.render(s.world,s.camera);frame=requestAnimationFrame(animate);}frame=requestAnimationFrame(animate);
+ return {update(next){phase=next.phase??phase;gameTime=next.elapsed??gameTime;bpm=next.bpm??bpm;lastUpdate=performance.now();if(next.beat!==undefined)beatLights.forEach((r,i)=>r.material.color.set(i===next.beat%8?'#ffed8b':'#dfbd85'));},hit(next){lastJump=next.elapsed;accepted=next.accepted;},reset(){lastJump=-Infinity;accepted=true;phase='ready';gameTime=0;},dispose(){disposed=true;cancelAnimationFrame(frame);s.dispose();}};
+}

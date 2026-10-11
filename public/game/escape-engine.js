@@ -1,5 +1,5 @@
 // Pure rules: callers supply timestamps relative to the start of the eight-beat run.
-export function createEscapeRun({bpm=72, onsets, runId, planId='intro-quarter-v1', inputSource='tap_demo'}={}) {
+export function createEscapeRun({bpm=72, onsets, runId, planId='intro-quarter-v1', inputSource='tap_demo',movement='escape'}={}) {
  if(!Number.isFinite(bpm)||bpm<30||bpm>240)throw Error('Invalid BPM');
  const duration=8*60/bpm;
  const expected=onsets??Array.from({length:8},(_,i)=>i*60/bpm);
@@ -7,7 +7,7 @@ export function createEscapeRun({bpm=72, onsets, runId, planId='intro-quarter-v1
  const gap=expected.length>1?Math.min(...expected.slice(1).map((t,i)=>t-expected[i])):duration;
  const window=Math.min(.18,gap*.45), hits=new Set(), times=[];
  let finished=false, extras=0;
- const snapshot=elapsed=>({position:Math.max(0,Math.min(1,.5-.3*Math.max(0,Math.min(elapsed,duration))/duration+.8*hits.size/expected.length)),matchedCount:hits.size,expectedCount:expected.length});
+ const snapshot=elapsed=>({position:Math.max(0,Math.min(1,(movement==='brake'?.08-.08*Math.max(0,Math.min(elapsed,duration))/duration+hits.size/expected.length:.5-.3*Math.max(0,Math.min(elapsed,duration))/duration+.8*hits.size/expected.length))),matchedCount:hits.size,expectedCount:expected.length});
  return {
   duration, expected:[...expected], window,
   ingest(atSec){
@@ -20,7 +20,7 @@ export function createEscapeRun({bpm=72, onsets, runId, planId='intro-quarter-v1
   snapshot,
   finish(elapsed){
    if(elapsed<duration)throw Error('Run has not ended');
-   finished=true;return {runId,planId,inputSource,analysisStatus:'reliable',outcome:hits.size>=Math.ceil(.6*expected.length)?'escaped':'bubble_rescue',...snapshot(duration),missedCount:expected.length-hits.size,extraCount:extras,durationSec:duration,times:[...times]};
+   finished=true;return {runId,planId,inputSource,analysisStatus:'reliable',outcome:hits.size>=Math.ceil(.6*expected.length)?'escaped':'retry_needed',windmillStopped:hits.size>=Math.ceil(.6*expected.length),...snapshot(duration),missedCount:expected.length-hits.size,extraCount:extras,durationSec:duration,times:[...times]};
   }
  };
 }

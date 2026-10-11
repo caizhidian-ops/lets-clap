@@ -1,0 +1,65 @@
+{
+  "provider": "Tripo",
+  "newTaskCount": 3,
+  "newCreditsConsumed": 60.0,
+  "assets": [
+    {
+      "id": "dongdong",
+      "provider": "Tripo",
+      "taskId": "069d5b49-160a-48a7-97ac-cc15ef73a77c",
+      "name": "咚咚 · 鼓点团子",
+      "prompt": "One original fantasy rhythm creature, a very chubby apricot dumpling-shaped plush with a wide pear body, tiny arms held apart and two oversized oval feet. No animal ears: three soft rounded drumstick-shaped tufts rise from its head. Cream oval belly with three terracotta embroidered rhythm dots. Two small glossy black eyes far apart, rosy cheeks, tiny curved smile. Dense soft short-pile faux fur, subtle stitched seams, matte velvety fabric. Standing upright, neutral full body, front facing, all sides finished, game collectible. Simple clean silhouette, no ground, background, pedestal, letters, accessories. An invented music creature, not an animal or existing branded toy.",
+      "source": "original text-to-model; reference photos not uploaded",
+      "sha256": "1508f29fa7b73b9b9bfe53f8376dd3d40380011d6655b60bd5c1cf615f920f93",
+      "bytes": 3101108,
+      "creditsConsumed": 20.0,
+      "meshes": 1,
+      "materials": 1,
+      "images": 3,
+      "triangles": 29002
+    },
+    {
+      "id": "youyou",
+      "provider": "Tripo",
+      "taskId": "5dbb55ce-a57c-4c62-82cf-8514ebc74f3a",
+      "name": "悠悠 · 卷尾云团",
+      "prompt": "One original fantasy cloud rhythm creature, plump lavender-blue plush, body shaped like a rounded three-lobed cloud with a low wide silhouette. A short thick curled spiral tail visible on its right side, two tiny rounded feet, two mitten hands held slightly apart. No ears, no fins, no beak. Cream crescent-shaped chest patch, two small glossy dark eyes, blush cheeks and a relaxed little smile. Dense fluffy short-pile faux fur with soft fiber surface detail and handmade seams. Full body standing upright, front facing, finished on all sides, cozy game collectible with matte fabric. No ground, pedestal, scenery, text or clothing. Invented cloud creature, not a whale, penguin, dog or existing branded toy.",
+      "source": "original text-to-model; reference photos not uploaded",
+      "sha256": "447831d2ec3013ba0ada1b877d2a121789049ecd0d7c0b900f6b2affdadc16d4",
+      "bytes": 4126556,
+      "creditsConsumed": 20.0,
+      "meshes": 1,
+      "materials": 1,
+      "images": 3,
+      "triangles": 28764
+    },
+    {
+      "id": "bengbeng",
+      "provider": "Tripo",
+      "taskId": "35a09d45-f420-449e-9cb2-a14bf3b61d69",
+      "name": "蹦蹦 · 风芽球",
+      "prompt": "One original fantasy wind-sprout creature, a very fat pistachio green plush pebble body, almost spherical, two stubby peach feet, short mitten arms held apart. Two broad soft leaf-shaped antennae bend outward from its top, no animal ears. A small coral spiral embroidery at the center of a pale cream belly. Two small glossy black eyes, blush cheeks, open tiny happy smile. Soft dense short-pile fur, velvety stuffed fabric, subtle seam stitching, warm handmade collectible game character. Full body neutral upright front pose with all sides complete. No ground, base, scenery, text, hat or other objects. Distinct invented plant-music creature, not a recognizable branded toy.",
+      "source": "original text-to-model; reference photos not uploaded",
+      "sha256": "6d8e49726d5c2f3613c097f911cc4f639cf5ca8e25a3ca1258c497fa08a3825d",
+      "bytes": 3078376,
+      "creditsConsumed": 20.0,
+      "meshes": 1,
+      "materials": 1,
+      "images": 3,
+      "triangles": 29102
+    },
+    {
+      "id": "windmill",
+      "provider": "Tripo",
+      "taskId": "78ac8988-6ecd-4306-82fa-7c9641838cb6",
+      "prompt": "One whimsical Dutch windmill building for a childrens fantasy game, premium miniature clay toy. Cream tapered tower, warm coral conical roof, four wooden pastel mint and apricot sails arranged symmetrically, small arched wooden door, rounded blue window, moss trim. Complete freestanding building with all sides detailed. No ground base, landscape, people, text or other buildings. Matte painted wood and clay, warm storybook game asset.",
+      "sha256": "6d25c3ab7390a92257e2616c1e353b88cdecd9ef3fd1533700a3b0ca7b5e806d",
+      "bytes": 3174932,
+      "creditsConsumed": 20.0,
+      "name": "节奏岛风车",
+      "source": "Reused verified Tripo task from this project; no duplicate generation",
+      "triangles": 19176,
+      "images": 3
+    }
+  ]
+}

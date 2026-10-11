@@ -24,7 +24,15 @@ export const server=http.createServer(async(req,res)=>{
   catch(e){res.writeHead(e.message==='INVALID_INPUT'||e instanceof SyntaxError?400:502,{'Content-Type':'application/json'});res.end(JSON.stringify({error:'反馈暂时没连上，请重试。你的作品还在。'}));}return;
  }
  const files={'/flow.js':'flow.js','/flow-model.js':'flow-model.js','/flow.css':'flow.css','/':'index.html','/app.js':'app.js','/style.css':'style.css','/game/escape-scene.js':'game/escape-scene.js','/game/escape-engine.js':'game/escape-engine.js','/game/escape.css':'game/escape.css'};
+
+ for(const name of ['escape-world.js','night-music.js','vendor/three.module.js','vendor/three.core.js','vendor/GLTFLoader.js','vendor/BufferGeometryUtils.js'])files['/game/'+name]='game/'+name;
+ for(const name of ['monster.glb','windmill.glb'])files['/assets/rescue/'+name]='assets/rescue/'+name;
+ for(const name of ['interior-world.js','interior-session.js','jump-rope-engine.js'])files['/game/'+name]='game/'+name;
+ files['/flow-medals.js']='flow-medals.js';
+ files['/plush-fur.js']='plush-fur.js';
+ for(const version of ['plush-v1','plush-v2'])for(const name of ['dongdong','youyou','bengbeng','windmill','whale','penguin','dachshund'])files['/assets/'+version+'/'+name+'.glb']='assets/'+version+'/'+name+'.glb';
+ files['/night-rescue.html']='night-rescue.html';files['/game/night-entry.js']='game/night-entry.js';
  const file=files[req.url?.split('?')[0]];if(!file){res.writeHead(404);res.end('Not found');return;}
- try{res.setHeader('Content-Type',file.endsWith('.js')?'text/javascript':file.endsWith('.css')?'text/css':'text/html');res.end(await readFile(root+file));}catch{res.writeHead(500);res.end('Unavailable');}
+ try{res.setHeader('Content-Type',file.endsWith('.glb')?'model/gltf-binary':file.endsWith('.js')?'text/javascript':file.endsWith('.css')?'text/css':'text/html');res.end(await readFile(root+file));}catch(e){res.writeHead(e.code==='ENOENT'?404:500);res.end('Unavailable');}
 });
 if(process.argv[1]===fileURLToPath(import.meta.url))server.listen(Number(process.env.PORT)||5173,'127.0.0.1',()=>console.log('Let’s Clap: http://127.0.0.1:5173'));
