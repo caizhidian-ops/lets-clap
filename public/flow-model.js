@@ -14,5 +14,5 @@ export function renameTrack(tracks,id,title){
  track.title=name;return {ok:true};
 }
 // User-defined mapping; excitement has no assigned game yet.
-export const moodGames={平静:{gameId:'windmill',petId:'whale',petName:'悠悠',title:'风车',bpm:60},开心:{gameId:'jump-rope',petId:'penguin',petName:'蹦蹦',title:'跳绳',bpm:90}};
+export const moodGames={平静:{gameId:'jump-rope',petId:'whale',petName:'悠悠',title:'室内慢节奏',bpm:60},开心:{gameId:'jump-rope',petId:'penguin',petName:'蹦蹦',title:'跳绳',bpm:90}};
 export function gameForMood(mood){return moodGames[mood]||null;}
