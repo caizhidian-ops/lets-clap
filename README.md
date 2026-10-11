@@ -1,40 +1,37 @@
-# Let's Clap · 心情节奏乐园
+# Let's Clap · 一起拍手吧
 
-本地儿童中文 demo：在同一个大场景中对话、选择心情、开始音乐游戏，再试听、保存、改名和查看勋章。
-
-- **平静 → 悠悠（生成的鲸鱼）→ 室内慢节奏**：60 BPM 舒缓跳绳练习，与开心共用室内场景。主流程暂不使用风车关卡。
-- **开心 → 蹦蹦（生成的企鹅）→ 跳绳**：十六拍绳圈与音乐同步，点击/空格起跳，有连续命中、绊绳提示与重试。
-- 兴奋暂未指定玩法；生成的腊肠狗保留供后续使用。
+本地儿童音乐 demo，已整合 Mio PR #1 的前置语音与宠物流程，以及现有 3D 节奏游戏、拍手输入、试听、专辑墙与教学报告。
 
 ## 运行
 
-Node 22+，无需安装依赖，Three.js/GLTFLoader 已放在本地 vendor。
+Node 22+，依赖固定为 ws@8.21.0；Three.js / GLTFLoader 已放在本地 vendor。
 
 ```sh
-nvm use
-npm start
-npm test
+npm ci
+cp .env.example .env # 已有配置时无需复制
+./scripts/run.sh
 ```
 
-主入口 http://127.0.0.1:5173/ 。原有夜行关停版保留在 `/night-rescue.html`。
+本机 bundled Node 路径：`/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node`。启动脚本优先使用用户目录中的 bundled Node，也支持 `NODE_BIN`。当前整合体验使用 `PORT=5199 ./scripts/run.sh`，入口 http://127.0.0.1:5199/ 。
 
-本机默认 npm 可能指向旧 Node，已验证的本机命令：
+## 主流程
+
+孵化 → 命名 → 心情 → 编排/示范/调整难度 → 3D 节奏游戏 → 试听 → 收藏与改名。Mio 负责前置语音与编排；游戏接收她的真实拍点时间轴。性格对应企鹅、鲸鱼、腊肠狗，场景沿用命名后的伙伴。开心、平静可进游戏；兴奋关卡未开放。没有语音连接时可展开“也可以点选”继续。
+
+游戏支持点击、空格与本地麦克风拍手检测，只保存拍点；新主流程不保存原始拍手录音。静态 GLB 整体跳跃，没有骨骼绑定或身体动作识别。八拍编排按小节长度循环到已有 96 BPM、30 秒《大风车》伴奏，鼓声由实际输入拍点合成。专辑保存在当前浏览器，报告使用原始游戏时间轴，动态编排不自动冒充均匀跟拍课程达标。
+
+`/practice.html?view=album` 查看专辑；`/night-rescue.html` 保留旧关卡；`/clap-test.html` 是本地拍手检测测试页。旧 `lets-clap-v1`、Mio 宠物和旧作品保持原样。
+
+## 服务与验证
+
+统一入口 `server/index.js` 提供 HTTP 与实时语音代理；`server.mjs` 的反馈和节奏报告接口被复用。密钥只在服务端 `.env`，禁止提交。启动时连接验证不代表完整语音验收；无密钥或上游失败明确提供后备，不虚构 AI 结果。
 
 ```sh
-/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node server.mjs
-/Users/user/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node --test
+node --test test/*.test.mjs tests/*.test.js
+# 运行无密钥本地测试服务后，包含 HTTP 与模拟千问协议：
+BASE_URL=http://127.0.0.1:5200 BOBO_INTEGRATION=1 node --test test/*.test.mjs tests/*.test.js
 ```
 
-## 真实能力与接入
+本轮 81 项测试通过。真实语音/真人拍手、孩子现场体验与生产发布尚未作为本轮验收。
 
-宠物为 `public/assets/plush-v2/` 中实际生成的鲸鱼、企鹅、腊肠狗 GLB；风车资产在 plush-v1。毛绒额外效果来自 `plush-fur.js`。静态模型的跳跃是整体位移，未绑定骨骼动画。
-
-当前游戏输入是点击/键盘；语音用于心情与关卡指令，依赖浏览器、网络和麦克风权限，失败时可打字或点按钮。没有身体动作或真实拍手检测。
-
-试听当前是实际输入拍点合成的小鼓；正式音乐由试听负责人接入 `LetsClapPlayback.setResult()`，见 [接口说明](docs/integration/five-step-flow.md)。专辑保存在当前浏览器 localStorage；刷新后保留作品名和拍点。保留历史作品。完成跳绳并收藏可点亮跳绳达人；《大风车》歌曲勋章仍需正式歌曲数据。
-
-`POST /api/feedback` 保留千问服务端接口；未配置密钥时明确返回演示反馈。主流程目前使用游戏实际命中数据，不自动调用千问。密钥仅设置在服务端环境 `QWEN_API_KEY` / `DASHSCOPE_API_KEY`，禁止提交 `.env`。真实千问和正式歌曲均未验收，未部署生产。
-
-## 验证
-
-19 项 Node 测试通过；浏览器实际定时操作验证风车 8/8 停转、跳绳完成、跳准/绊绳反馈、脚部过绳净空、模型与情绪映射、音乐开关、试听收藏、跳绳勋章，以及 390px 无横向溢出。上述分数来自自动化测试，不是孩子的真实体验结果。完整范围见 [整合记录](docs/integration/mood-games.md)。
+详细交接与证据见 [PR #1 整合记录](docs/integration/pr1-local.md)、[拍手检测](docs/integration/clap-input.md)、[节奏报告](docs/integration/rhythm-feedback.md)。

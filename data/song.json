@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "1.0.0",
+  "songId": "pep22_g1b_dafengche",
+  "title": "大风车",
+  "publisher": "renjiao",
+  "grade": 1,
+  "semester": "lower",
+  "scoreFile": "verified-score.json",
+  "reviewStatus": "reviewed_with_warnings",
+  "scoreVerificationStatus": "verified",
+  "manualReviewRecorded": true,
+  "source": {
+    "kind": "library-file",
+    "fileName": "pep22_g1b_dafengche.verified-score.json",
+    "sourceBatch": "pep-2022-first-9"
+  },
+  "limitations": [
+    "重点检查：反复/第一第二结尾。",
+    "“嘿！”暂以休止时值占位；确认旋律数据时不把它当音高。",
+    "两段歌词共用主体旋律，note-level 主要按教材当前行的歌词绑定。"
+  ],
+  "warnings": [
+    {
+      "code": "BPM_NOT_IN_SCORE",
+      "severity": "info",
+      "path": "bpm",
+      "message": "谱面未提供 BPM，草稿暂用 72，需人工确认。"
+    },
+    {
+      "code": "RECOGNITION_WARNING",
+      "severity": "warning",
+      "path": "recognition.raw",
+      "message": "谱面含反复记号与第一/第二结尾；Draft 保留教材可见小节顺序，不展开重复演唱路径。"
+    },
+    {
+      "code": "RECOGNITION_WARNING",
+      "severity": "warning",
+      "path": "recognition.raw",
+      "message": "谱面含喊声 X（“嘿！”）；当前单旋律 Score schema 无 spoken-note 类型，暂按 1 拍休止保留时值。"
+    }
+  ]
+}

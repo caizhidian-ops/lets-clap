@@ -1,4 +1,5 @@
-export const moodStyles={开心:{name:'轻快',bpm:90},平静:{name:'舒缓',bpm:60},兴奋:{name:'活力',bpm:108}};
+import {RHYTHM} from './game/rhythm.js';
+export const moodStyles={开心:{name:'轻快',bpm:RHYTHM.bpm},平静:{name:'舒缓',bpm:RHYTHM.bpm},兴奋:{name:'活力',bpm:RHYTHM.bpm}};
 export function readMood(text){
  if(/平静|沉静|安静|舒缓|放松/.test(text))return '平静';
  if(/兴奋|激动|活力/.test(text))return '兴奋';
@@ -14,5 +15,5 @@ export function renameTrack(tracks,id,title){
  track.title=name;return {ok:true};
 }
 // User-defined mapping; excitement has no assigned game yet.
-export const moodGames={平静:{gameId:'jump-rope',petId:'whale',petName:'悠悠',title:'室内慢节奏',bpm:60},开心:{gameId:'jump-rope',petId:'penguin',petName:'蹦蹦',title:'跳绳',bpm:90}};
+export const moodGames={平静:{gameId:'jump-rope',petId:'whale',petName:'悠悠',title:'室内节奏',bpm:RHYTHM.bpm},开心:{gameId:'jump-rope',petId:'penguin',petName:'蹦蹦',title:'跳绳',bpm:RHYTHM.bpm}};
 export function gameForMood(mood){return moodGames[mood]||null;}
